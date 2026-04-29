@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Studio Marina Hair</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c5a059;--gold-h:#a68445;--gold-l:rgba(197,160,89,.13);
+  --bg:#fdfcfb;--surf:#faf8f5;--txt:#1a1a1a;--muted:#8c857d;--bdr:#e5e1da;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+ 
+/* ── VIEWS ── */
+.view{display:none!important}
+.view.active{display:block!important}
+#view-admin.active{display:flex!important;flex-direction:column}
+@media(min-width:768px){#view-admin.active{flex-direction:row}}
+#view-download.active{display:flex!important;align-items:center;justify-content:center;min-height:100vh;background:#f9fafb;padding:1rem}
+ 
+/* ── HERO ── */
+#view-client{min-height:100vh;padding-bottom:5rem;background:#faf9f7}
+.hero{position:relative;height:280px;overflow:hidden}
+@media(min-width:768px){.hero{height:340px}}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.42)}
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,3.2rem);font-style:italic;color:#fff;letter-spacing:.02em;margin-bottom:.5rem;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.hero-sub{color:rgba(255,255,255,.85);font-size:.65rem;letter-spacing:.28em;font-weight:700;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-btns{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;max-width:500px}
+.hbtn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:999px;font-size:.8rem;font-weight:500;cursor:pointer;border:none;text-decoration:none;color:#fff;background:rgba(255,255,255,.2);transition:background .2s}
+.hbtn:hover{background:rgba(255,255,255,.3)}
+.hbtn.gold{background:rgba(197,160,89,.75);font-weight:700}
+.hbtn.gold:hover{background:rgba(197,160,89,.9)}
+ 
+/* ── CONTAINER / CARD ── */
+.wrap{max-width:56rem;margin:-2.5rem auto 0;padding:0 1rem;position:relative;z-index:10}
+.card{background:#fff;border:1px solid var(--bdr);box-shadow:0 4px 24px rgba(197,160,89,.08);padding:1.5rem;margin-bottom:2rem}
+@media(min-width:768px){.card{padding:2rem}}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.5rem;text-align:center;margin-bottom:1.5rem}
+ 
+/* ── SERVICES GRID ── */
+.svc-grid{display:grid;gap:1rem}
+@media(min-width:480px){.svc-grid{grid-template-columns:1fr 1fr}}
+.svc-card{border:1px solid var(--bdr);cursor:pointer;display:flex;min-height:7rem;transition:border-color .2s,box-shadow .2s;background:#fff;overflow:hidden}
+.svc-card:hover{border-color:var(--gold);box-shadow:0 2px 12px rgba(197,160,89,.12)}
+.svc-img{width:6rem;flex-shrink:0;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.svc-card:hover .svc-img img{transform:scale(1.06)}
+.svc-body{padding:.75rem 1rem;display:flex;flex-direction:column;justify-content:center;flex-grow:1}
+.svc-name{font-weight:500;margin-bottom:.25rem}
+.svc-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;padding-top:.5rem}
+.svc-price{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold)}
+.svc-starts{display:block;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.1rem}
+.svc-dur{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+ 
+/* ── BOOKING ── */
+.back-btn{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);cursor:pointer;border:none;background:none;margin-bottom:1.25rem;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.back-btn:hover{color:var(--gold-h)}
+.bk-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.3rem}
+.bk-meta{color:var(--muted);font-size:.85rem;padding-bottom:1.25rem;margin-bottom:1.5rem;border-bottom:1px solid var(--gold-l)}
+.bk-grid{display:grid;gap:2rem}
+@media(min-width:768px){.bk-grid{grid-template-columns:1fr 1fr}}
+.step-lbl{font-weight:500;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.step-n{width:1.5rem;height:1.5rem;border-radius:50%;background:var(--gold-l);color:var(--gold-h);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+ 
+/* ── CALENDAR ── */
+.cal{border:1px solid var(--gold-l);overflow:hidden;background:#fff}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--surf);border-bottom:1px solid var(--gold-l)}
+.cal-hdr h3{font-size:.9rem;font-weight:500;text-transform:capitalize}
+.cal-nav{border:none;background:none;cursor:pointer;color:var(--gold-h);padding:.25rem;border-radius:50%;transition:background .15s;font-size:1rem;line-height:1}
+.cal-nav:hover{background:var(--gold-l)}
+.cal-body{padding:.75rem}
+.cal-wk{display:grid;grid-template-columns:repeat(7,1fr);gap:.1rem;margin-bottom:.2rem}
+.cal-wday{text-align:center;font-size:.65rem;font-weight:600;color:var(--gold);padding:.2rem 0}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:.1rem}
+.cal-day{border:1px solid transparent;background:none;cursor:pointer;font-family:'Playfair Display',serif;font-size:.85rem;min-height:2.4rem;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--txt);width:100%}
+.cal-day:hover:not([disabled]){border-color:var(--gold);background:var(--gold-l)}
+.cal-day[disabled]{color:#ccc;cursor:not-allowed}
+.cal-day.today{border-color:var(--gold);color:var(--gold-h);background:var(--gold-l)}
+.cal-day.sel{background:var(--gold);border-color:var(--gold);color:#fff!important}
+ 
+/* ── SLOTS ── */
+.slots-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
+@media(min-width:400px){.slots-grid{grid-template-columns:repeat(4,1fr)}}
+.slot{border:1px solid var(--bdr);background:#fff;cursor:pointer;padding:.5rem;font-size:.8rem;text-align:center;color:var(--muted);transition:all .15s;font-family:'Inter',sans-serif}
+.slot:hover{border-color:var(--gold);color:var(--gold-h)}
+.slot.sel{border-color:var(--gold);background:var(--gold-l);color:var(--gold-h);font-weight:700}
+.slots-empty{font-size:.85rem;color:var(--muted);background:var(--surf);padding:1.5rem;text-align:center;border:1px solid var(--bdr)}
+ 
+/* ── FORM ── */
+.client-form{border-top:1px solid var(--gold-l);padding-top:2rem;margin-top:1.5rem}
+.fgrid{display:grid;gap:1rem}
+@media(min-width:768px){.fgrid{grid-template-columns:1fr 1fr}}
+.fg{display:flex;flex-direction:column;gap:.3rem}
+.fg.full{grid-column:1/-1}
+label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+input[type=text],input[type=tel],input[type=url],input[type=number],input[type=email],input[type=password],select{
+  border:1px solid var(--bdr);padding:.65rem 1rem;font-size:.9rem;font-family:'Inter',sans-serif;color:var(--txt);background:#fff;outline:none;transition:border-color .15s;width:100%
+}
+input:focus,select:focus{border-color:var(--gold)}
+input[type=color]{padding:.2rem;cursor:pointer;height:2.5rem;width:3rem;border:1px solid var(--bdr)}
+input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:pointer}
+ 
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem 1.5rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-h)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed}
+.btn-dark{background:var(--txt);color:#fff}
+.btn-dark:hover{background:#333}
+.btn-ghost{background:none;color:var(--muted)}
+.btn-ghost:hover{color:var(--txt)}
+.btn-danger{background:#fef2f2;color:#dc2626}
+.btn-danger:hover{background:#fee2e2}
+.btn-green{background:#16a34a;color:#fff}
+.btn-green:hover{background:#15803d}
+.btn-green-lt{background:#f0fdf4;color:#15803d}
+.btn-green-lt:hover{background:#dcfce7}
+.btn-sm{padding:.4rem .9rem;font-size:.65rem}
+.btn-icon{padding:.4rem;border-radius:4px}
+.btn-w{width:100%}
+.mt5{margin-top:1.25rem}
+ 
+/* ── FOOTER ── */
+.c-footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.8rem}
+.foot-row{display:flex;flex-direction:column;align-items:center;gap:.4rem;margin-bottom:1rem}
+.foot-item{display:flex;align-items:center;gap:.4rem}
+.alink{color:var(--gold);text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;font-size:.8rem}
+ 
+/* ── MODALS ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto}
+.modal{background:#fff;width:100%;max-width:26rem;padding:2rem;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.2);animation:zin .2s ease}
+@keyframes zin{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.m-close{position:absolute;top:1rem;right:1rem;border:none;background:none;cursor:pointer;color:var(--muted);font-size:1.2rem;line-height:1;transition:color .15s}
+.m-close:hover{color:var(--txt)}
+.m-icon{width:4rem;height:4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.8rem}
+.m-title{font-family:'Playfair Display',serif;font-size:1.5rem;text-align:center;margin-bottom:.3rem}
+.m-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1.5rem}
+.pts-box{background:var(--gold-l);border:1px solid rgba(197,160,89,.2);padding:1.5rem;text-align:center;margin-bottom:1rem}
+.pts-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--gold-h);margin-bottom:.3rem}
+.pts-val{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--gold-h)}
+.pts-hint{font-size:.7rem;color:var(--gold);margin-top:.3rem}
+.ref-box{background:var(--surf);border:1px solid var(--bdr);padding:1rem;margin-top:1rem}
+.ref-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+.ref-ico{background:rgba(251,191,36,.2);color:#d97706;border-radius:4px;width:2rem;height:2rem;display:flex;align-items:center;justify-content:center}
+.ref-title{font-size:.8rem;font-weight:700}
+.ref-sub{font-size:.7rem;color:var(--muted)}
+.ref-row{display:flex;gap:.4rem}
+.ref-ph{flex:1;background:#fff;border:1px solid var(--bdr);padding:.5rem .75rem;font-size:.8rem;font-family:monospace;color:var(--muted)}
+.success-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
+.success-box{background:#fff;text-align:center;padding:2.5rem;width:100%;max-width:22rem;animation:zin .3s ease}
+.s-icon{width:5rem;height:5rem;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem}
+.s-title{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.5rem}
+.dots{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:1.5rem}
+.dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--gold);animation:bou .8s infinite}
+.dot:nth-child(2){animation-delay:.16s}
+.dot:nth-child(3){animation-delay:.32s}
+@keyframes bou{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+ 
+/* ── ADMIN LOGIN ── */
+.login-ov{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem}
+.login-box{background:#fff;border:1px solid var(--bdr);padding:2.5rem;width:100%;max-width:22rem;text-align:center}
+.login-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;margin-bottom:.3rem}
+.login-sub{font-size:.75rem;color:var(--muted);margin-bottom:2rem}
+.login-err{font-size:.78rem;color:#dc2626;margin-top:.5rem}
+ 
+/* ── SIDEBAR ── */
+.sidebar{background:var(--surf);border-bottom:1px solid var(--bdr);flex-shrink:0;z-index:20}
+@media(min-width:768px){.sidebar{width:18rem;border-bottom:none;border-right:1px solid var(--bdr);height:100vh;position:sticky;top:0;display:flex;flex-direction:column}}
+.sb-brand{padding:1.5rem 2rem}
+.sb-brand h1{font-family:'Playfair Display',serif;font-size:1.6rem;font-style:italic}
+.sb-brand h1 span{color:var(--gold);font-style:normal}
+.sb-brand p{font-size:.6rem;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--muted);margin-top:.3rem}
+.sb-nav{display:flex;flex-direction:row;overflow-x:auto;padding:.5rem;gap:.25rem;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+@media(min-width:768px){.sb-nav{flex-direction:column;padding:0;overflow-x:visible}}
+.nav-btn{display:flex;align-items:center;gap:.6rem;padding:.75rem 1.25rem;font-size:.8rem;font-weight:500;white-space:nowrap;cursor:pointer;border:none;background:none;color:var(--muted);transition:all .15s;font-family:'Inter',sans-serif;border-radius:4px}
+.nav-btn:hover{background:var(--gold-l);color:var(--txt)}
+.nav-btn.on{background:rgba(197,160,89,.12);color:var(--gold-h);font-weight:600}
+@media(min-width:768px){.nav-btn{border-radius:0;border-right:3px solid transparent;padding:1rem 1.5rem}.nav-btn.on{border-right-color:var(--gold);background:rgba(197,160,89,.08)}}
+.sb-foot{padding:1.5rem;margin-top:auto;display:none}
+@media(min-width:768px){.sb-foot{display:block}}
+.site-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.75rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;width:100%;transition:color .15s}
+.site-btn:hover{color:var(--txt)}
+ 
+/* ── ADMIN MAIN ── */
+.a-main{flex:1;padding:1.5rem 1rem;overflow-x:hidden}
+@media(min-width:768px){.a-main{padding:2.5rem;height:100vh;overflow-y:auto}}
+.a-sec{display:none;max-width:64rem}
+.a-sec.on{display:block}
+.a-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:2rem}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+ 
+/* ── APPT CARDS ── */
+.appt-list{display:flex;flex-direction:column;gap:.75rem}
+.appt{background:#fff;border:1px solid var(--bdr);padding:1rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.appt.today{border-color:var(--gold)}
+@media(min-width:640px){.appt{flex-direction:row;align-items:center;justify-content:space-between}}
+.appt-l{display:flex;align-items:center;gap:1rem}
+.appt-dt{padding:.75rem 1rem;border-right:1px solid var(--bdr);text-align:center;min-width:4.5rem;flex-shrink:0}
+.appt-mon{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.appt-day{font-family:'Playfair Display',serif;font-size:2rem;line-height:1}
+.appt.today .appt-day{color:var(--gold-h)}
+.appt-svc{color:var(--gold-h);font-weight:500;margin-bottom:.2rem}
+.appt-cli{font-size:.85rem;color:var(--muted)}
+.appt-ph{font-size:.8rem;color:var(--muted);margin-top:.1rem}
+.appt-acts{display:flex;flex-wrap:wrap;gap:.4rem}
+ 
+/* ── SERVICES ADMIN ── */
+.svc-adm-grid{display:grid;gap:1rem}
+@media(min-width:640px){.svc-adm-grid{grid-template-columns:1fr 1fr}}
+.svc-adm{background:#fff;border:1px solid var(--bdr);padding:1.25rem;display:flex;flex-direction:column}
+.svc-adm-img{width:100%;height:8rem;object-fit:cover;margin-bottom:1rem;border:1px solid var(--bdr)}
+.svc-adm-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:1rem;border-top:1px solid var(--bdr)}
+.svc-adm-acts{display:flex;gap:.25rem}
+ 
+/* ── FORM PANEL ── */
+.fpanel{background:#fff;border:1px solid var(--bdr);padding:1.5rem;margin-bottom:2rem}
+.fpanel-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--gold-l);display:inline-block}
+.fpanel-grid{display:grid;gap:1rem;margin-bottom:1rem}
+@media(min-width:640px){.fpanel-grid{grid-template-columns:1fr 1fr}}
+.fpanel-acts{display:flex;justify-content:flex-end;gap:.75rem;align-items:center;padding-top:1rem}
+.chk-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.chk-row label{font-size:.85rem;font-weight:500;color:var(--txt);text-transform:none;letter-spacing:normal}
+.divider{border:none;border-top:1px solid var(--bdr);margin:1.25rem 0}
+ 
+/* ── SETTINGS ── */
+.set-form{background:#fff;border:1px solid var(--bdr);padding:2rem;max-width:36rem}
+.set-f{margin-bottom:1.25rem}
+.set-prev{margin-top:.75rem;border:1px solid var(--bdr);overflow:hidden;aspect-ratio:16/9}
+.set-prev img{width:100%;height:100%;object-fit:cover}
+.set-foot{padding-top:1.25rem;border-top:1px solid var(--bdr);display:flex;justify-content:flex-end}
+ 
+/* ── LOYALTY ── */
+.loy-form{background:#fff;border:1px solid var(--bdr);padding:2rem;max-width:36rem}
+.loy-tog{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--gold-l);border:1px solid rgba(197,160,89,.2);margin-bottom:1.5rem}
+.loy-tog h3{font-weight:600;color:var(--gold-h)}
+.loy-tog p{font-size:.8rem;color:var(--gold)}
+.loy-grid{display:grid;gap:1.25rem;margin-bottom:1.25rem}
+@media(min-width:640px){.loy-grid{grid-template-columns:1fr 1fr}}
+.loy-foot{display:flex;justify-content:flex-end;padding-top:1.25rem;border-top:1px solid var(--bdr)}
+ 
+/* ── TABLE ── */
+.tbl-wrap{background:#fff;border:1px solid var(--bdr);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:36rem}
+thead tr{background:var(--surf);border-bottom:1px solid var(--bdr)}
+th{padding:.85rem 1.25rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);text-align:left}
+td{padding:.85rem 1.25rem;border-bottom:1px solid var(--bdr);font-size:.9rem}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surf)}
+.badge{display:inline-flex;align-items:center;padding:.2rem .75rem;font-size:.75rem;font-weight:700;border-radius:999px;background:var(--gold-l);color:var(--gold-h);border:1px solid rgba(197,160,89,.2)}
+.empty{background:#fff;border:1px solid var(--bdr);padding:3rem;text-align:center;color:var(--muted)}
+ 
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--txt);color:#fff;padding:.75rem 1.25rem;font-size:.85rem;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:18rem;animation:sup .3s ease}
+@keyframes sup{from{transform:translateY(1rem);opacity:0}to{transform:translateY(0);opacity:1}}
+ 
+/* ── UPDATES ── */
+#view-updates{min-height:100vh;background:#f3f4f6;padding:2.5rem 1rem}
+.upd-title{font-family:'Playfair Display',serif;color:#e11d48;font-size:2rem;border-bottom:2px solid #fecdd3;padding-bottom:.75rem;margin-bottom:2rem;text-align:center}
+.upd-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:2rem;margin-bottom:1.5rem;max-width:50rem;margin-left:auto;margin-right:auto;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.upd-card h2{font-size:1.25rem;font-weight:700;margin-bottom:.25rem}
+.upd-date{font-size:.75rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:1.25rem}
+.upd-list{list-style:disc;padding-left:1.5rem}
+.upd-list li{margin-bottom:.75rem;color:#374151;font-size:.9rem}
+.upd-list strong{color:#111827}
+ 
+/* ── DOWNLOAD ── */
+.dl-card{background:#fff;width:100%;max-width:36rem;border-radius:1rem;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center}
+.dl-hdr{background:var(--gold);height:8rem;display:flex;align-items:center;justify-content:center}
+.dl-hdr h1{font-family:'Playfair Display',serif;font-style:italic;color:#fff;font-size:1.8rem}
+.dl-body{padding:2rem}
+.dl-ico{width:5rem;height:5rem;background:#fff;border-radius:50%;margin:-3.5rem auto 1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.1);border:1px solid var(--gold-l);font-size:2rem}
+.dl-body h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.75rem}
+.dl-body p{color:#6b7280;margin-bottom:2rem;font-size:.9rem}
+.dl-acts{display:flex;flex-direction:column;gap:.75rem;max-width:20rem;margin:0 auto}
+.dl-btn{display:block;width:100%;padding:.75rem;border-radius:.75rem;font-weight:600;font-size:.9rem;cursor:pointer;border:none;background:var(--gold);color:#fff;transition:all .2s}
+.dl-btn:hover{background:var(--gold-h)}
+.dl-row{display:flex;gap:.5rem}
+.dl-dark{flex:1;background:#111827;color:#fff;border-radius:.75rem;font-size:.8rem;padding:.65rem;display:flex;align-items:center;justify-content:center;gap:.4rem;cursor:pointer;border:none;font-weight:500;transition:background .2s}
+.dl-dark:hover{background:#000}
+.dl-foot{background:#fff7ed;color:var(--gold-h);font-size:.85rem;font-weight:500;padding:1rem;border-top:1px solid var(--gold-l)}
+</style>
+</head>
+<body>
+ 
+<!-- ══════════════ CLIENT HOME ══════════════ -->
+<div id="view-client" class="view active">
+  <header class="hero">
+    <img id="hero-img" src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="banner"/>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title" id="hero-name">Studio Marina Hair</h1>
+      <p class="hero-sub">Realçando sua beleza</p>
+      <div class="hero-btns">
+        <a id="hero-google" href="#" target="_blank" class="hbtn">⭐ Avaliar no Google</a>
+        <button class="hbtn gold" onclick="openLoyalty()">🏆 Meus Pontos</button>
+        <a id="hero-ig" href="#" target="_blank" class="hbtn">📸 <span id="hero-ig-txt">@instagram</span></a>
+      </div>
+    </div>
+  </header>
+ 
+  <div class="wrap">
+    <div id="svc-section" class="card">
+      <h2 class="sec-title">Nossos Serviços</h2>
+      <div class="svc-grid" id="svc-grid"></div>
+    </div>
+ 
+    <div id="bk-section" class="card" style="display:none">
+      <button class="back-btn" onclick="backToSvc()">&#8592; Voltar</button>
+      <h2 class="bk-title" id="bk-name"></h2>
+      <p class="bk-meta" id="bk-meta"></p>
+ 
+      <div id="bk-ok" style="display:none;text-align:center;padding:2rem 0">
+        <div style="width:4rem;height:4rem;border-radius:50%;background:#dcfce7;color:#16a34a;font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">✓</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:.5rem">Agendamento Solicitado!</h3>
+        <p style="color:var(--muted);font-size:.85rem">Redirecionando para o WhatsApp...</p>
+      </div>
+ 
+      <div id="bk-form">
+        <div class="bk-grid">
+          <div>
+            <div class="step-lbl"><span class="step-n">1</span> Escolha a Data</div>
+            <div class="cal" id="cal"></div>
+          </div>
+          <div>
+            <div class="step-lbl"><span class="step-n">2</span> Escolha o Horário</div>
+            <div id="slots"><div class="slots-empty">Selecione uma data para ver os horários</div></div>
+          </div>
+        </div>
+        <div class="client-form" id="cli-form" style="display:none">
+          <div class="step-lbl"><span class="step-n">3</span> Seus Dados</div>
+          <div class="fgrid">
+            <div class="fg"><label>Nome Completo</label><input type="text" id="cli-name" placeholder="Ex: Maria Carolina"/></div>
+            <div class="fg"><label>Telefone (WhatsApp)</label><input type="tel" id="cli-phone" placeholder="11 99999-9999"/></div>
+            <div class="fg full"><label>Alguém te indicou? (Opcional)</label><input type="tel" id="cli-ref" placeholder="Telefone do amigo: 11999999999"/></div>
+          </div>
+          <button class="btn btn-gold btn-w mt5" onclick="submitBooking()">Confirmar Agendamento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <footer class="c-footer">
+    <div class="foot-row">
+      <div class="foot-item">📞 <span id="ft-phone"></span></div>
+      <div class="foot-item">📸 <span id="ft-ig"></span></div>
+    </div>
+    <p id="ft-copy"></p>
+    <p style="margin-top:.3rem;font-size:.7rem">
+      Acesso <button class="alink" onclick="goAdmin()">Área da Marina</button>
+      &nbsp;·&nbsp;<button class="alink" onclick="go('view-updates')">Atualizações</button>
+      &nbsp;·&nbsp;<button class="alink" onclick="go('view-download')">Baixar App</button>
+    </p>
+  </footer>
+</div>
+ 
+<!-- LOYALTY MODAL -->
+<div id="loy-modal" class="overlay" style="display:none" onclick="closeLoyOuter(event)">
+  <div class="modal" id="loy-inner">
+    <button class="m-close" onclick="closeLoy()">✕</button>
+    <div class="m-icon" style="background:var(--gold-l)">🏆</div>
+    <h3 class="m-title">Seus Pontos</h3>
+    <p class="m-sub">Consulte seus benefícios e indique amigas</p>
+    <div id="loy-form">
+      <div class="fg" style="margin-bottom:1rem"><label>Informe seu WhatsApp</label><input type="tel" id="loy-phone" placeholder="Ex: 11999999999"/></div>
+      <button class="btn btn-gold btn-w" onclick="checkLoy()">Ver meus pontos</button>
+    </div>
+    <div id="loy-result" style="display:none">
+      <div class="pts-box">
+        <div class="pts-lbl">Saldo Atual</div>
+        <div class="pts-val"><span id="pts-n">0</span> <span style="font-size:1rem">pts</span></div>
+        <div class="pts-hint" id="pts-hint"></div>
+      </div>
+      <div class="ref-box">
+        <div class="ref-hdr">
+          <div class="ref-ico">🔗</div>
+          <div><div class="ref-title">Indique e Ganhe</div><div class="ref-sub" id="ref-bonus">Ganhe pontos por amiga</div></div>
+        </div>
+        <div class="ref-row">
+          <div class="ref-ph" id="ref-ph">---</div>
+          <button class="btn btn-green btn-sm" onclick="shareRef()">Indicar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- SUCCESS MODAL -->
+<div id="ok-modal" class="success-ov" style="display:none">
+  <div class="success-box">
+    <div class="s-icon">✓</div>
+    <h3 class="s-title">Agendamento Enviado!</h3>
+    <p style="color:var(--muted);font-size:.85rem">Redirecionando para o WhatsApp para confirmar os detalhes.</p>
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+</div>
+ 
+<!-- ADMIN LOGIN -->
+<div id="login-ov" class="login-ov" style="display:none">
+  <div class="login-box">
+    <h2 class="login-title">Área da Marina</h2>
+    <p class="login-sub">Painel de Gestão · Studio Marina Hair</p>
+    <div class="set-f" style="text-align:left"><label>Senha</label><input type="password" id="pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="login-err" id="pw-err" style="display:none">Senha incorreta.</div>
+    <button class="btn btn-gold btn-w" style="margin-top:1rem" onclick="doLogin()">Entrar</button>
+    <button class="btn btn-ghost btn-w" style="margin-top:.75rem;font-size:.75rem" onclick="document.getElementById('login-ov').style.display='none'">Cancelar</button>
+  </div>
+</div>
+ 
+<!-- ══════════════ ADMIN DASHBOARD ══════════════ -->
+<div id="view-admin" class="view">
+  <aside class="sidebar">
+    <div class="sb-brand"><h1>Studio Marina <span>Hair</span></h1><p>Painel de Gestão</p></div>
+    <nav class="sb-nav">
+      <button class="nav-btn on" onclick="setTab('agenda',this)">📅 Agenda</button>
+      <button class="nav-btn" onclick="setTab('services',this)">✂️ Serviços</button>
+      <button class="nav-btn" onclick="setTab('settings',this)">⚙️ Dados do Salão</button>
+      <button class="nav-btn" onclick="setTab('loyalty',this)">🏆 Fidelidade</button>
+      <button class="nav-btn" onclick="setTab('clients',this)">👥 Clientes</button>
+    </nav>
+    <div class="sb-foot">
+      <button class="site-btn" onclick="go('view-client')">↗ Ver site do cliente</button>
+    </div>
+  </aside>
+ 
+  <main class="a-main">
+    <!-- AGENDA -->
+    <div id="tab-agenda" class="a-sec on">
+      <h2 class="a-title">Próximos Agendamentos</h2>
+      <div id="appt-wrap"></div>
+    </div>
+ 
+    <!-- SERVICES -->
+    <div id="tab-services" class="a-sec">
+      <div class="sec-hdr">
+        <h2 class="a-title" style="margin:0">Serviços Oferecidos</h2>
+        <button class="btn btn-gold" onclick="toggleSvcForm()">+ Novo Serviço</button>
+      </div>
+      <div id="svc-form" class="fpanel" style="display:none">
+        <span class="fpanel-title" id="svc-form-ttl">Cadastrar Novo Serviço</span>
+        <div class="fpanel-grid">
+          <div class="fg"><label>Nome do Serviço</label><input type="text" id="sv-name"/></div>
+          <div class="fg"><label>Duração (min)</label><input type="number" id="sv-dur" value="60"/></div>
+          <div class="fg"><label>Valor (R$)</label><input type="number" id="sv-price" value="0" step="0.01"/></div>
+          <div class="fg"><label>URL da Imagem (Opcional)</label><input type="url" id="sv-img" placeholder="https://..."/></div>
+        </div>
+        <div class="chk-row"><input type="checkbox" id="sv-starts"/><label for="sv-starts">Valor "a partir de"</label></div>
+        <hr class="divider"/>
+        <div class="fpanel-grid">
+          <div class="fg"><label>Fonte do Nome</label><select id="sv-nfont"><option value="sans">Sans-Serif</option><option value="serif">Serif</option><option value="mono">Monospace</option></select></div>
+          <div class="fg"><label>Cor do Nome</label><div style="display:flex;gap:.5rem"><input type="color" id="sv-ncol" value="#1a1a1a" oninput="document.getElementById('sv-ncol-t').value=this.value"/><input type="text" id="sv-ncol-t" value="#1a1a1a" style="flex:1;font-family:monospace;font-size:.8rem" oninput="document.getElementById('sv-ncol').value=this.value"/></div></div>
+          <div class="fg"><label>Fonte do Valor</label><select id="sv-pfont"><option value="serif">Serif</option><option value="sans">Sans-Serif</option><option value="mono">Monospace</option></select></div>
+          <div class="fg"><label>Cor do Valor</label><div style="display:flex;gap:.5rem"><input type="color" id="sv-pcol" value="#c5a059" oninput="document.getElementById('sv-pcol-t').value=this.value"/><input type="text" id="sv-pcol-t" value="#c5a059" style="flex:1;font-family:monospace;font-size:.8rem" oninput="document.getElementById('sv-pcol').value=this.value"/></div></div>
+        </div>
+        <div class="fpanel-acts">
+          <button class="btn btn-ghost" onclick="cancelSvcForm()">Cancelar</button>
+          <button class="btn btn-dark" onclick="saveSvc()">Salvar</button>
+        </div>
+      </div>
+      <div class="svc-adm-grid" id="svc-adm-grid"></div>
+    </div>
+ 
+    <!-- SETTINGS -->
+    <div id="tab-settings" class="a-sec">
+      <h2 class="a-title">Informações do Salão</h2>
+      <div class="set-form">
+        <div class="set-f"><label>Nome do Salão</label><input type="text" id="set-name"/></div>
+        <div class="set-f"><label>WhatsApp para agendamentos</label><input type="text" id="set-phone"/></div>
+        <div class="set-f"><label>Usuário do Instagram</label><input type="text" id="set-ig" placeholder="@hair.studio.marina"/></div>
+        <div class="set-f"><label>Link Avaliação Google</label><input type="text" id="set-google"/></div>
+        <div class="set-f">
+          <label>Imagem de Capa (URL)</label>
+          <input type="url" id="set-banner" oninput="prvBanner()"/>
+          <div class="set-prev" id="ban-prv" style="display:none"><img id="ban-prv-img" src="" alt=""/></div>
+        </div>
+        <div class="set-foot"><button class="btn btn-gold" onclick="saveSettings()">Salvar Alterações</button></div>
+      </div>
+    </div>
+ 
+    <!-- LOYALTY -->
+    <div id="tab-loyalty" class="a-sec">
+      <h2 class="a-title">Programa de Fidelidade</h2>
+      <div class="loy-form">
+        <div class="loy-tog">
+          <div><h3>Ativar Programa</h3><p>Habilite o acúmulo de pontos</p></div>
+          <input type="checkbox" id="loy-on" style="width:1.5rem;height:1.5rem;accent-color:var(--gold)"/>
+        </div>
+        <div class="loy-grid">
+          <div class="fg"><label>Pontos por Agendamento</label><input type="number" id="loy-pts" value="10"/></div>
+          <div class="fg"><label>Bônus de Indicação</label><input type="number" id="loy-ref" value="20"/></div>
+          <div class="fg"><label>Pontos Mínimos para Resgate</label><input type="number" id="loy-min" value="100"/></div>
+          <div class="fg"><label>Desconto por Ponto (R$)</label><input type="number" id="loy-disc" step="0.01" value="0.1"/><p style="font-size:.65rem;color:var(--muted);margin-top:.3rem;font-style:italic">Ex: 0.1 = 10 pts = R$ 1,00</p></div>
+        </div>
+        <div class="loy-foot"><button class="btn btn-dark" onclick="saveLoy()">Atualizar Programa</button></div>
+      </div>
+    </div>
+ 
+    <!-- CLIENTS -->
+    <div id="tab-clients" class="a-sec">
+      <div class="sec-hdr">
+        <h2 class="a-title" style="margin:0">Ranking de Clientes</h2>
+        <span id="cli-count" style="color:var(--muted);font-size:.85rem"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>WhatsApp</th><th>Pontos</th><th style="text-align:center">Indicações</th><th style="text-align:center">Ações</th></tr></thead>
+          <tbody id="cli-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+ 
+<!-- ══════════════ UPDATES ══════════════ -->
+<div id="view-updates" class="view">
+  <div style="max-width:50rem;margin:0 auto;padding:2rem 1rem">
+    <div style="margin-bottom:1.5rem"><button class="btn btn-ghost" onclick="go('view-client')" style="padding:.5rem 1rem;font-size:.8rem">&#8592; Voltar</button></div>
+    <h1 class="upd-title">📋 Histórico de Atualizações</h1>
+    <div class="upd-card">
+      <h2>Programa de Fidelidade e Modais Interativos</h2>
+      <div class="upd-date">Últimas Atualizações</div>
+      <ul class="upd-list">
+        <li><strong>Programa de Fidelidade:</strong> Clientes acumulam pontos a cada atendimento concluído.</li>
+        <li><strong>Indique e Ganhe:</strong> Clientes recebem pontos bônus ao indicar amigas.</li>
+        <li><strong>Gestão de Fidelidade (Admin):</strong> Aba dedicada para ligar/desligar o programa e configurar pontos.</li>
+        <li><strong>Ranking de Clientes (Admin):</strong> Listagem com pontos e indicações de cada cliente.</li>
+        <li><strong>Modal de Sucesso:</strong> Tela animada com redirecionamento automático para WhatsApp.</li>
+        <li><strong>Consulta de Pontos (Cliente):</strong> Clientes consultam saldo pelo WhatsApp e compartilham indicação.</li>
+      </ul>
+    </div>
+    <div class="upd-card">
+      <h2>Customização e Edição de Serviços</h2>
+      <div class="upd-date">Atualizações Anteriores</div>
+      <ul class="upd-list">
+        <li><strong>Edição Avançada:</strong> Editar serviços existentes sem precisar excluí-los.</li>
+        <li><strong>Opção "A partir de":</strong> Checkbox para prefixar valores não fixos.</li>
+        <li><strong>Customização Visual:</strong> Fonte e cor do nome e preço do serviço personalizáveis.</li>
+      </ul>
+    </div>
+    <div class="upd-card">
+      <h2>Lançamento Inicial</h2>
+      <div class="upd-date">Versão 1.0</div>
+      <ul class="upd-list">
+        <li><strong>Interface do Cliente:</strong> Grade de serviços com imagens, duração e valores.</li>
+        <li><strong>Agendamento com Calendário:</strong> Escolha de dia e horário com confirmação via WhatsApp.</li>
+        <li><strong>Dashboard Administrativo:</strong> Gestão de agendamentos e configurações do salão.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════ DOWNLOAD ══════════════ -->
+<div id="view-download" class="view">
+  <div class="dl-card">
+    <div class="dl-hdr"><h1>Studio Marina Hair</h1></div>
+    <div class="dl-body">
+      <div class="dl-ico">✂️</div>
+      <h2>Tenha o salão na palma da mão</h2>
+      <p>Agende seus horários, acompanhe seus pontos e indique amigas para ganhar bônus exclusivos.</p>
+      <div class="dl-acts">
+        <button class="dl-btn" onclick="go('view-client')">Acessar Web App (Navegador)</button>
+        <div class="dl-row">
+          <button class="dl-dark" onclick="alert('Disponível em breve na Play Store!')">📱 App Android</button>
+          <button class="dl-dark" onclick="alert('Disponível em breve na App Store!')">🍎 App iOS</button>
+        </div>
+      </div>
+      <p style="margin-top:1.5rem;font-size:.75rem;color:#9ca3af">
+        <button class="alink" onclick="go('view-client')">&#8592; Voltar ao site</button>
+      </p>
+    </div>
+    <div class="dl-foot">Experimente nosso Programa de Fidelidade ✨</div>
+  </div>
+</div>
+ 
+<div id="toast" class="toast" style="display:none"></div>
+ 
+<script>
+// ══ DATA ══
+var DEFAULT = {
+  settings:{salonName:"Studio Marina Hair",phone:"11 96646-2521",googleReviewUrl:"https://g.page/r/CSmwQUgRrY4-EBM/review",instagram:"@hair.studio.marina",bannerUrl:"https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"},
+  loyaltySettings:{enabled:true,pointsPerService:10,referralBonus:20,minPointsToRedeem:100,discountPerPoint:0.1},
+  services:[
+    {id:"1",name:"Corte Feminino",price:80,duration:60,image:"https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=400&q=80",startsAt:false,nameFontFamily:"sans",nameColor:"#1a1a1a",priceFontFamily:"serif",priceColor:"#c5a059"},
+    {id:"2",name:"Escova Modeladora",price:60,duration:40,image:"https://images.unsplash.com/photo-1595476108010-b4d1f10d5e43?auto=format&fit=crop&w=400&q=80",startsAt:false,nameFontFamily:"sans",nameColor:"#1a1a1a",priceFontFamily:"serif",priceColor:"#c5a059"},
+    {id:"3",name:"Coloração Completa",price:150,duration:120,image:"https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=400&q=80",startsAt:true,nameFontFamily:"sans",nameColor:"#1a1a1a",priceFontFamily:"serif",priceColor:"#c5a059"}
+  ],
+  appointments:[],clients:[]
+};
+var PW = "marina2024";
+ 
+function loadApp(){
+  try{
+    var s = localStorage.getItem('smh_data');
+    if(s){ var d=JSON.parse(s); if(d&&d.settings) return d; }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT));
+}
+function save(){ try{localStorage.setItem('smh_data',JSON.stringify(APP));}catch(e){} }
+var APP = loadApp();
+ 
+// ══ ROUTING ══
+function go(id){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  if(id==='view-client') renderClient();
+  if(id==='view-admin') renderAdmin();
+  window.scrollTo(0,0);
+}
+ 
+// ══ CLIENT ══
+var FM = {sans:'Inter,sans-serif',serif:"'Playfair Display',serif",mono:"'Courier New',monospace"};
+ 
+function renderClient(){
+  var s = APP.settings;
+  document.getElementById('hero-img').src = s.bannerUrl||DEFAULT.settings.bannerUrl;
+  document.getElementById('hero-name').textContent = s.salonName;
+  document.getElementById('hero-google').href = s.googleReviewUrl||'#';
+  document.getElementById('hero-ig').href = s.instagram?('https://instagram.com/'+s.instagram.replace('@','')):'#';
+  document.getElementById('hero-ig-txt').textContent = s.instagram||'';
+  document.getElementById('ft-phone').textContent = s.phone||'';
+  document.getElementById('ft-ig').textContent = s.instagram||'';
+  document.getElementById('ft-copy').textContent = '© '+new Date().getFullYear()+' '+s.salonName+'. Todos os direitos reservados.';
+ 
+  var g = document.getElementById('svc-grid');
+  if(!APP.services.length){g.innerHTML='<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:2rem">Nenhum serviço cadastrado.</p>';return;}
+  g.innerHTML = APP.services.map(function(sv){
+    return '<div class="svc-card" onclick="startBk(\''+sv.id+'\')">'
+      +(sv.image?'<div class="svc-img"><img src="'+sv.image+'" alt="'+sv.name+'" loading="lazy"/></div>':'')
+      +'<div class="svc-body">'
+      +'<div class="svc-name" style="font-family:'+FM[sv.nameFontFamily||'sans']+';color:'+(sv.nameColor||'#1a1a1a')+'">'+sv.name+'</div>'
+      +'<div class="svc-foot">'
+      +'<div class="svc-price" style="font-family:'+FM[sv.priceFontFamily||'serif']+';color:'+(sv.priceColor||'#c5a059')+'">'
+      +(sv.startsAt?'<span class="svc-starts">A partir de</span>':'')+'R$ '+sv.price.toFixed(2)+'</div>'
+      +'<div class="svc-dur">'+sv.duration+' min</div>'
+      +'</div></div></div>';
+  }).join('');
+}
+ 
+// ══ BOOKING ══
+var selSvc=null, selDate=null, selTime=null, calMon=new Date();
+ 
+function startBk(id){
+  selSvc=APP.services.find(function(s){return s.id===id;});
+  selDate=null; selTime=null; calMon=new Date();
+  document.getElementById('svc-section').style.display='none';
+  document.getElementById('bk-section').style.display='block';
+  document.getElementById('bk-name').textContent='Agendar '+selSvc.name;
+  document.getElementById('bk-meta').innerHTML='Valor: <strong>R$ '+selSvc.price.toFixed(2)+'</strong>'+(selSvc.startsAt?' (a partir de)':'')+'&nbsp;•&nbsp;Duração: <strong>'+selSvc.duration+' min</strong>';
+  document.getElementById('bk-ok').style.display='none';
+  document.getElementById('bk-form').style.display='block';
+  document.getElementById('cli-form').style.display='none';
+  buildCal(); window.scrollTo(0,0);
+}
+ 
+function backToSvc(){
+  document.getElementById('svc-section').style.display='';
+  document.getElementById('bk-section').style.display='none';
+  selSvc=null; selDate=null; selTime=null;
+}
+ 
+function pad(n){return String(n).padStart(2,'0');}
+function fmtD(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+ 
+function buildCal(){
+  var root=document.getElementById('cal');
+  var y=calMon.getFullYear(), m=calMon.getMonth();
+  var first=new Date(y,m,1), last=new Date(y,m+1,0);
+  var today=new Date(); today.setHours(0,0,0,0);
+  var MONS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var days='';
+  for(var i=0;i<first.getDay();i++) days+='<div></div>';
+  for(var d=1;d<=last.getDate();d++){
+    var dt=new Date(y,m,d);
+    var past=dt<today, tod=dt.getTime()===today.getTime();
+    var isSel=selDate&&dt.getTime()===selDate.getTime();
+    var cls='cal-day'+(tod&&!isSel?' today':'')+(isSel?' sel':'');
+    days+='<button class="'+cls+'"'+(past?' disabled':' onclick="pickDate('+y+','+m+','+d+')"')+' type="button">'+d+'</button>';
+  }
+  root.innerHTML='<div class="cal-hdr">'
+    +'<button class="cal-nav" type="button" onclick="calPrev()">&#8249;</button>'
+    +'<h3>'+MONS[m]+' '+y+'</h3>'
+    +'<button class="cal-nav" type="button" onclick="calNext()">&#8250;</button>'
+    +'</div><div class="cal-body">'
+    +'<div class="cal-wk">'+['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(function(d){return '<div class="cal-wday">'+d+'</div>';}).join('')+'</div>'
+    +'<div class="cal-days">'+days+'</div></div>';
+}
+ 
+function calPrev(){calMon=new Date(calMon.getFullYear(),calMon.getMonth()-1,1);buildCal();}
+function calNext(){calMon=new Date(calMon.getFullYear(),calMon.getMonth()+1,1);buildCal();}
+function pickDate(y,m,d){selDate=new Date(y,m,d);selTime=null;buildCal();buildSlots();document.getElementById('cli-form').style.display='none';}
+ 
+function buildSlots(){
+  var w=document.getElementById('slots');
+  if(!selDate){w.innerHTML='<div class="slots-empty">Selecione uma data para ver os horários</div>';return;}
+  var ds=fmtD(selDate);
+  var booked=APP.appointments.filter(function(a){return a.date===ds;}).map(function(a){return a.time;});
+  var sl=[];
+  for(var h=9;h<18;h++){var t=pad(h)+':00';if(booked.indexOf(t)===-1)sl.push(t);}
+  if(!sl.length){w.innerHTML='<div class="slots-empty">Sem horários disponíveis nesta data</div>';return;}
+  w.innerHTML='<div class="slots-grid">'+sl.map(function(t){
+    return '<button type="button" class="slot'+(selTime===t?' sel':'')+'" onclick="pickTime(\''+t+'\')">'+t+'</button>';
+  }).join('')+'</div>';
+}
+ 
+function pickTime(t){
+  selTime=t; buildSlots();
+  var cf=document.getElementById('cli-form');
+  cf.style.display='block';
+  cf.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+ 
+function submitBooking(){
+  var name=(document.getElementById('cli-name').value||'').trim();
+  var phone=(document.getElementById('cli-phone').value||'').trim();
+  var ref=(document.getElementById('cli-ref').value||'').trim();
+  if(!selSvc||!selDate||!selTime||!name||!phone){alert('Preencha todos os campos obrigatórios.');return;}
+  var appt={id:''+Date.now(),serviceId:selSvc.id,date:fmtD(selDate),time:selTime,clientName:name,clientPhone:phone,createdAt:new Date().toISOString()};
+  APP.appointments.push(appt);
+  if(ref){var rr=APP.clients.find(function(c){return c.phone===ref;});if(rr){rr.referrals=(rr.referrals||0)+1;rr.points=(rr.points||0)+(APP.loyaltySettings&&APP.loyaltySettings.referralBonus?APP.loyaltySettings.referralBonus:0);}}
+  if(!APP.clients.find(function(c){return c.phone===phone;})) APP.clients.push({id:''+Date.now()+'c',name:name,phone:phone,points:0,referrals:0});
+  save();
+  document.getElementById('ok-modal').style.display='flex';
+  var ds=fmtD(selDate), ts=selTime;
+  setTimeout(function(){
+    var msg='Olá, gostaria de confirmar meu agendamento no Studio Marina Hair para o dia '+ds+' às '+ts+'.';
+    var num=(APP.settings.phone||'').replace(/\D/g,'');
+    window.open('https://wa.me/55'+num+'?text='+encodeURIComponent(msg),'_blank');
+    document.getElementById('ok-modal').style.display='none';
+    backToSvc();
+    document.getElementById('cli-name').value='';
+    document.getElementById('cli-phone').value='';
+    document.getElementById('cli-ref').value='';
+  },3000);
+}
+ 
+// ══ LOYALTY MODAL ══
+var loyClient=null;
+function openLoyalty(){document.getElementById('loy-modal').style.display='flex';document.getElementById('loy-form').style.display='block';document.getElementById('loy-result').style.display='none';document.getElementById('loy-phone').value='';loyClient=null;}
+function closeLoy(){document.getElementById('loy-modal').style.display='none';}
+function closeLoyOuter(e){if(e.target.id==='loy-modal')closeLoy();}
+function checkLoy(){
+  var ph=(document.getElementById('loy-phone').value||'').trim();
+  if(!ph)return;
+  var c=APP.clients.find(function(x){return x.phone===ph;});
+  if(!c){alert('Cliente não encontrado ou sem pontos ainda.');return;}
+  loyClient=c;
+  document.getElementById('loy-form').style.display='none';
+  document.getElementById('loy-result').style.display='block';
+  document.getElementById('pts-n').textContent=c.points||0;
+  var mn=APP.loyaltySettings&&APP.loyaltySettings.minPointsToRedeem?APP.loyaltySettings.minPointsToRedeem:100;
+  document.getElementById('pts-hint').textContent=(c.points||0)>=mn?'Você já pode resgatar um desconto!':'Faltam '+(mn-(c.points||0))+' pts para o próximo resgate';
+  document.getElementById('ref-bonus').textContent='Ganhe '+(APP.loyaltySettings&&APP.loyaltySettings.referralBonus?APP.loyaltySettings.referralBonus:0)+' pts por amiga';
+  document.getElementById('ref-ph').textContent='Seu número: '+c.phone;
+}
+function shareRef(){
+  if(!loyClient)return;
+  var text='Oi! Estou amando o Studio Marina Hair! Agende e informe meu número ('+loyClient.phone+') para ganharmos bônus! '+window.location.href;
+  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+ 
+// ══ ADMIN ══
+function goAdmin(){document.getElementById('login-ov').style.display='flex';document.getElementById('pw').value='';document.getElementById('pw-err').style.display='none';setTimeout(function(){document.getElementById('pw').focus();},100);}
+function doLogin(){if(document.getElementById('pw').value===PW){document.getElementById('login-ov').style.display='none';go('view-admin');}else document.getElementById('pw-err').style.display='block';}
+ 
+function setTab(t,btn){
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.querySelectorAll('.a-sec').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('tab-'+t).classList.add('on');
+  if(t==='agenda')renderAgenda();
+  if(t==='services')renderSvcAdmin();
+  if(t==='clients')renderClients();
+  if(t==='settings')loadSettings();
+  if(t==='loyalty')loadLoy();
+}
+ 
+function renderAdmin(){renderAgenda();loadSettings();loadLoy();}
+ 
+// Agenda
+function renderAgenda(){
+  var wrap=document.getElementById('appt-wrap');
+  var now=new Date(), cut=new Date(now.getTime()-2*60*60*1000);
+  var up=APP.appointments.filter(function(a){return new Date(a.date+'T'+a.time)>cut;}).sort(function(a,b){return new Date(a.date+'T'+a.time)-new Date(b.date+'T'+b.time);});
+  if(!up.length){wrap.innerHTML='<div class="empty">Nenhum agendamento futuro encontrado.</div>';return;}
+  var MONS=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  var tod=fmtD(now);
+  wrap.innerHTML='<div class="appt-list">'+up.map(function(a){
+    var dt=new Date(a.date+'T'+a.time);
+    var sn=(APP.services.find(function(s){return s.id===a.serviceId;})||{name:'Serviço'}).name;
+    var isT=a.date===tod;
+    var waNum=(a.clientPhone||'').replace(/\D/g,'');
+    return '<div class="appt'+(isT?' today':'')+'">'
+      +'<div class="appt-l">'
+      +'<div class="appt-dt"><div class="appt-mon">'+MONS[dt.getMonth()]+'</div><div class="appt-day">'+pad(dt.getDate())+'</div></div>'
+      +'<div><div style="font-size:1.1rem;font-weight:700">'+a.time+' <span class="appt-svc">· '+sn+'</span></div>'
+      +'<div class="appt-cli">Cliente: <strong>'+a.clientName+'</strong></div>'
+      +'<div class="appt-ph">📱 '+a.clientPhone+'</div></div></div>'
+      +'<div class="appt-acts">'
+      +'<button class="btn btn-green btn-sm" onclick="doneAppt(\''+a.id+'\')">✓ Concluir</button>'
+      +'<a href="https://wa.me/55'+waNum+'" target="_blank" class="btn btn-green-lt btn-sm">WhatsApp</a>'
+      +'<button class="btn btn-danger btn-sm" onclick="cancelAppt(\''+a.id+'\')">Cancelar</button>'
+      +'</div></div>';
+  }).join('')+'</div>';
+}
+ 
+function doneAppt(id){
+  var a=APP.appointments.find(function(x){return x.id===id;});
+  if(!a)return;
+  if(!confirm('Concluir atendimento e creditar pontos?'))return;
+  if(APP.loyaltySettings&&APP.loyaltySettings.enabled){
+    var c=APP.clients.find(function(x){return x.phone===a.clientPhone;});
+    if(!c){c={id:''+Date.now()+'c',name:a.clientName,phone:a.clientPhone,points:0,referrals:0};APP.clients.push(c);}
+    c.points=(c.points||0)+(APP.loyaltySettings.pointsPerService||0);
+  }
+  APP.appointments=APP.appointments.filter(function(x){return x.id!==id;});
+  save(); renderAgenda(); toast('Atendimento concluído! Pontos creditados.');
+}
+function cancelAppt(id){if(!confirm('Cancelar este agendamento?'))return;APP.appointments=APP.appointments.filter(function(x){return x.id!==id;});save();renderAgenda();toast('Agendamento cancelado.');}
+ 
+// Services admin
+var editSvcId=null;
+function renderSvcAdmin(){
+  var g=document.getElementById('svc-adm-grid');
+  if(!APP.services.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum serviço cadastrado.</div>';return;}
+  g.innerHTML=APP.services.map(function(s){
+    return '<div class="svc-adm">'
+      +(s.image?'<img class="svc-adm-img" src="'+s.image+'" alt="'+s.name+'" loading="lazy"/>':'')
+      +'<div style="font-family:'+FM[s.nameFontFamily||'sans']+';color:'+(s.nameColor||'#1a1a1a')+';font-weight:500;margin-bottom:.25rem">'+s.name+'</div>'
+      +'<div class="svc-adm-foot">'
+      +'<div><div style="font-family:'+FM[s.priceFontFamily||'serif']+';color:'+(s.priceColor||'#c5a059')+';font-size:1.1rem">'
+      +(s.startsAt?'<span style="display:block;font-family:Inter,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)">A partir de</span>':'')
+      +'R$ '+s.price.toFixed(2)+'</div>'
+      +'<div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)">'+s.duration+' min</div></div>'
+      +'<div class="svc-adm-acts">'
+      +'<button class="btn btn-ghost btn-icon" onclick="editSvc(\''+s.id+'\')" title="Editar">✎</button>'
+      +'<button class="btn btn-danger btn-icon" onclick="delSvc(\''+s.id+'\')" title="Excluir">🗑</button>'
+      +'</div></div></div>';
+  }).join('');
+}
+ 
+function toggleSvcForm(){
+  editSvcId=null;
+  document.getElementById('svc-form-ttl').textContent='Cadastrar Novo Serviço';
+  document.getElementById('sv-name').value=''; document.getElementById('sv-img').value='';
+  document.getElementById('sv-dur').value=60; document.getElementById('sv-price').value=0;
+  document.getElementById('sv-starts').checked=false;
+  document.getElementById('sv-nfont').value='sans'; document.getElementById('sv-ncol').value='#1a1a1a'; document.getElementById('sv-ncol-t').value='#1a1a1a';
+  document.getElementById('sv-pfont').value='serif'; document.getElementById('sv-pcol').value='#c5a059'; document.getElementById('sv-pcol-t').value='#c5a059';
+  var p=document.getElementById('svc-form'); p.style.display=p.style.display==='none'?'block':'none';
+}
+function cancelSvcForm(){document.getElementById('svc-form').style.display='none';editSvcId=null;}
+function editSvc(id){
+  var s=APP.services.find(function(x){return x.id===id;}); if(!s)return;
+  editSvcId=id; document.getElementById('svc-form-ttl').textContent='Editar Serviço';
+  document.getElementById('sv-name').value=s.name; document.getElementById('sv-dur').value=s.duration;
+  document.getElementById('sv-price').value=s.price; document.getElementById('sv-img').value=s.image||'';
+  document.getElementById('sv-starts').checked=!!s.startsAt;
+  document.getElementById('sv-nfont').value=s.nameFontFamily||'sans';
+  document.getElementById('sv-ncol').value=s.nameColor||'#1a1a1a'; document.getElementById('sv-ncol-t').value=s.nameColor||'#1a1a1a';
+  document.getElementById('sv-pfont').value=s.priceFontFamily||'serif';
+  document.getElementById('sv-pcol').value=s.priceColor||'#c5a059'; document.getElementById('sv-pcol-t').value=s.priceColor||'#c5a059';
+  document.getElementById('svc-form').style.display='block';
+  document.getElementById('svc-form').scrollIntoView({behavior:'smooth'});
+}
+function saveSvc(){
+  var n=(document.getElementById('sv-name').value||'').trim(); if(!n){alert('Nome obrigatório.');return;}
+  var d={name:n,duration:parseInt(document.getElementById('sv-dur').value)||60,price:parseFloat(document.getElementById('sv-price').value)||0,image:(document.getElementById('sv-img').value||'').trim(),startsAt:document.getElementById('sv-starts').checked,nameFontFamily:document.getElementById('sv-nfont').value,nameColor:document.getElementById('sv-ncol').value,priceFontFamily:document.getElementById('sv-pfont').value,priceColor:document.getElementById('sv-pcol').value};
+  if(editSvcId){var i=APP.services.findIndex(function(x){return x.id===editSvcId;});if(i!==-1)APP.services[i]=Object.assign({},APP.services[i],d);}
+  else APP.services.push(Object.assign({id:''+Date.now()},d));
+  save(); document.getElementById('svc-form').style.display='none'; editSvcId=null; renderSvcAdmin(); toast('Serviço salvo!');
+}
+function delSvc(id){if(!confirm('Remover este serviço?'))return;APP.services=APP.services.filter(function(x){return x.id!==id;});save();renderSvcAdmin();toast('Serviço removido.');}
+ 
+// Settings
+function loadSettings(){
+  var s=APP.settings||{};
+  document.getElementById('set-name').value=s.salonName||'';
+  document.getElementById('set-phone').value=s.phone||'';
+  document.getElementById('set-ig').value=s.instagram||'';
+  document.getElementById('set-google').value=s.googleReviewUrl||'';
+  document.getElementById('set-banner').value=s.bannerUrl||'';
+  prvBanner();
+}
+function prvBanner(){var u=(document.getElementById('set-banner').value||'').trim();var p=document.getElementById('ban-prv');if(u){p.style.display='block';document.getElementById('ban-prv-img').src=u;}else p.style.display='none';}
+function saveSettings(){APP.settings={salonName:(document.getElementById('set-name').value||'').trim(),phone:(document.getElementById('set-phone').value||'').trim(),instagram:(document.getElementById('set-ig').value||'').trim(),googleReviewUrl:(document.getElementById('set-google').value||'').trim(),bannerUrl:(document.getElementById('set-banner').value||'').trim()};save();toast('Configurações salvas!');}
+ 
+// Loyalty
+function loadLoy(){var l=APP.loyaltySettings||{};document.getElementById('loy-on').checked=!!l.enabled;document.getElementById('loy-pts').value=l.pointsPerService||10;document.getElementById('loy-ref').value=l.referralBonus||20;document.getElementById('loy-min').value=l.minPointsToRedeem||100;document.getElementById('loy-disc').value=l.discountPerPoint||0.1;}
+function saveLoy(){APP.loyaltySettings={enabled:document.getElementById('loy-on').checked,pointsPerService:parseInt(document.getElementById('loy-pts').value)||0,referralBonus:parseInt(document.getElementById('loy-ref').value)||0,minPointsToRedeem:parseInt(document.getElementById('loy-min').value)||0,discountPerPoint:parseFloat(document.getElementById('loy-disc').value)||0};save();toast('Programa de fidelidade atualizado!');}
+ 
+// Clients
+function renderClients(){
+  var cs=APP.clients.slice().sort(function(a,b){return (b.points||0)-(a.points||0);});
+  document.getElementById('cli-count').textContent=cs.length+' clientes registrados';
+  var tb=document.getElementById('cli-tbody');
+  if(!cs.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--muted);font-style:italic">Nenhum cliente ainda.</td></tr>';return;}
+  tb.innerHTML=cs.map(function(c){
+    return '<tr><td><strong>'+c.name+'</strong></td><td style="color:var(--muted)">'+c.phone+'</td>'
+      +'<td><span class="badge">'+(c.points||0)+' pts</span></td>'
+      +'<td style="text-align:center">🏆 '+(c.referrals||0)+'</td>'
+      +'<td style="text-align:center"><button class="btn btn-danger btn-icon" onclick="delClient(\''+c.id+'\')">🗑</button></td></tr>';
+  }).join('');
+}
+function delClient(id){if(!confirm('Excluir este cliente?'))return;APP.clients=APP.clients.filter(function(c){return c.id!==id;});save();renderClients();toast('Cliente excluído.');}
+ 
+// Toast
+var toastT;
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(toastT);toastT=setTimeout(function(){t.style.display='none';},3000);}
+ 
+// Boot
+renderClient();
+</script>
+</body>
+</html>
+  
