@@ -10,6 +10,7 @@
 :root{
   --gold:#c5a059;--gold-h:#a68445;--gold-l:rgba(197,160,89,.13);
   --bg:#fdfcfb;--surf:#faf8f5;--txt:#1a1a1a;--muted:#8c857d;--bdr:#e5e1da;
+  --green:#16a34a;--red:#dc2626;
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
  
@@ -19,6 +20,35 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 #view-admin.active{display:flex!important;flex-direction:column}
 @media(min-width:768px){#view-admin.active{flex-direction:row}}
 #view-download.active{display:flex!important;align-items:center;justify-content:center;min-height:100vh;background:#f9fafb;padding:1rem}
+ 
+/* ── LOADING SCREEN ── */
+#loading-screen{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;
+}
+#loading-screen h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-style:italic;color:var(--txt)}
+#loading-screen p{font-size:.8rem;color:var(--muted)}
+.spinner{width:2.5rem;height:2.5rem;border:3px solid var(--gold-l);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+ 
+/* ── SYNC STATUS BAR (Admin) ── */
+.sync-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.6rem 1.5rem;
+  font-size:.72rem;font-weight:600;
+  border-bottom:1px solid var(--bdr);
+  background:#fff;
+  gap:.75rem;
+  flex-wrap:wrap;
+}
+.sync-status{display:flex;align-items:center;gap:.4rem}
+.sync-dot{width:.55rem;height:.55rem;border-radius:50%;flex-shrink:0}
+.sync-dot.ok{background:#16a34a}
+.sync-dot.saving{background:var(--gold);animation:pulse .8s infinite}
+.sync-dot.err{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sync-time{color:var(--muted);font-size:.68rem}
+.sync-bar-btns{display:flex;gap:.5rem}
  
 /* ── HERO ── */
 #view-client{min-height:100vh;padding-bottom:5rem;background:#faf9f7}
@@ -113,9 +143,9 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .btn-dark:hover{background:#333}
 .btn-ghost{background:none;color:var(--muted)}
 .btn-ghost:hover{color:var(--txt)}
-.btn-danger{background:#fef2f2;color:#dc2626}
+.btn-danger{background:#fef2f2;color:var(--red)}
 .btn-danger:hover{background:#fee2e2}
-.btn-green{background:#16a34a;color:#fff}
+.btn-green{background:var(--green);color:#fff}
 .btn-green:hover{background:#15803d}
 .btn-green-lt{background:#f0fdf4;color:#15803d}
 .btn-green-lt:hover{background:#dcfce7}
@@ -152,7 +182,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .ref-ph{flex:1;background:#fff;border:1px solid var(--bdr);padding:.5rem .75rem;font-size:.8rem;font-family:monospace;color:var(--muted)}
 .success-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
 .success-box{background:#fff;text-align:center;padding:2.5rem;width:100%;max-width:22rem;animation:zin .3s ease}
-.s-icon{width:5rem;height:5rem;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem}
+.s-icon{width:5rem;height:5rem;border-radius:50%;background:#dcfce7;color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem}
 .s-title{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.5rem}
 .dots{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:1.5rem}
 .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--gold);animation:bou .8s infinite}
@@ -165,7 +195,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .login-box{background:#fff;border:1px solid var(--bdr);padding:2.5rem;width:100%;max-width:22rem;text-align:center}
 .login-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;margin-bottom:.3rem}
 .login-sub{font-size:.75rem;color:var(--muted);margin-bottom:2rem}
-.login-err{font-size:.78rem;color:#dc2626;margin-top:.5rem}
+.login-err{font-size:.78rem;color:var(--red);margin-top:.5rem}
  
 /* ── SIDEBAR ── */
 .sidebar{background:var(--surf);border-bottom:1px solid var(--bdr);flex-shrink:0;z-index:20}
@@ -187,12 +217,14 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .site-btn:hover{color:var(--txt)}
  
 /* ── ADMIN MAIN ── */
-.a-main{flex:1;padding:1.5rem 1rem;overflow-x:hidden}
-@media(min-width:768px){.a-main{padding:2.5rem;height:100vh;overflow-y:auto}}
+.a-main{flex:1;padding:0;overflow-x:hidden;display:flex;flex-direction:column}
+@media(min-width:768px){.a-main{height:100vh;overflow-y:auto}}
+.a-content{padding:1.5rem 1rem;flex:1}
+@media(min-width:768px){.a-content{padding:2.5rem}}
 .a-sec{display:none;max-width:64rem}
 .a-sec.on{display:block}
 .a-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:2rem}
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:.75rem}
  
 /* ── APPT CARDS ── */
 .appt-list{display:flex;flex-direction:column;gap:.75rem}
@@ -255,7 +287,10 @@ tr:hover td{background:var(--surf)}
 .empty{background:#fff;border:1px solid var(--bdr);padding:3rem;text-align:center;color:var(--muted)}
  
 /* ── TOAST ── */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--txt);color:#fff;padding:.75rem 1.25rem;font-size:.85rem;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:18rem;animation:sup .3s ease}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;color:#fff;padding:.75rem 1.25rem;font-size:.85rem;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:18rem;animation:sup .3s ease;border-radius:2px}
+.toast.info{background:var(--txt)}
+.toast.ok{background:var(--green)}
+.toast.err{background:var(--red)}
 @keyframes sup{from{transform:translateY(1rem);opacity:0}to{transform:translateY(0);opacity:1}}
  
 /* ── UPDATES ── */
@@ -287,8 +322,15 @@ tr:hover td{background:var(--surf)}
 </head>
 <body>
  
+<!-- ══ LOADING SCREEN ══ -->
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <h2>Studio Marina Hair</h2>
+  <p id="loading-msg">Carregando dados do salão...</p>
+</div>
+ 
 <!-- ══════════════ CLIENT HOME ══════════════ -->
-<div id="view-client" class="view active">
+<div id="view-client" class="view">
   <header class="hero">
     <img id="hero-img" src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="banner"/>
     <div class="hero-overlay"></div>
@@ -315,7 +357,7 @@ tr:hover td{background:var(--surf)}
       <p class="bk-meta" id="bk-meta"></p>
  
       <div id="bk-ok" style="display:none;text-align:center;padding:2rem 0">
-        <div style="width:4rem;height:4rem;border-radius:50%;background:#dcfce7;color:#16a34a;font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">✓</div>
+        <div style="width:4rem;height:4rem;border-radius:50%;background:#dcfce7;color:var(--green);font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">✓</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:.5rem">Agendamento Solicitado!</h3>
         <p style="color:var(--muted);font-size:.85rem">Redirecionando para o WhatsApp...</p>
       </div>
@@ -428,90 +470,105 @@ tr:hover td{background:var(--surf)}
   </aside>
  
   <main class="a-main">
-    <!-- AGENDA -->
-    <div id="tab-agenda" class="a-sec on">
-      <h2 class="a-title">Próximos Agendamentos</h2>
-      <div id="appt-wrap"></div>
-    </div>
- 
-    <!-- SERVICES -->
-    <div id="tab-services" class="a-sec">
-      <div class="sec-hdr">
-        <h2 class="a-title" style="margin:0">Serviços Oferecidos</h2>
-        <button class="btn btn-gold" onclick="toggleSvcForm()">+ Novo Serviço</button>
+    <!-- SYNC STATUS BAR -->
+    <div class="sync-bar">
+      <div class="sync-status">
+        <div class="sync-dot ok" id="sync-dot"></div>
+        <span id="sync-label">Sincronizado com a nuvem</span>
+        <span class="sync-time" id="sync-time"></span>
       </div>
-      <div id="svc-form" class="fpanel" style="display:none">
-        <span class="fpanel-title" id="svc-form-ttl">Cadastrar Novo Serviço</span>
-        <div class="fpanel-grid">
-          <div class="fg"><label>Nome do Serviço</label><input type="text" id="sv-name"/></div>
-          <div class="fg"><label>Duração (min)</label><input type="number" id="sv-dur" value="60"/></div>
-          <div class="fg"><label>Valor (R$)</label><input type="number" id="sv-price" value="0" step="0.01"/></div>
-          <div class="fg"><label>URL da Imagem (Opcional)</label><input type="url" id="sv-img" placeholder="https://..."/></div>
-        </div>
-        <div class="chk-row"><input type="checkbox" id="sv-starts"/><label for="sv-starts">Valor "a partir de"</label></div>
-        <hr class="divider"/>
-        <div class="fpanel-grid">
-          <div class="fg"><label>Fonte do Nome</label><select id="sv-nfont"><option value="sans">Sans-Serif</option><option value="serif">Serif</option><option value="mono">Monospace</option></select></div>
-          <div class="fg"><label>Cor do Nome</label><div style="display:flex;gap:.5rem"><input type="color" id="sv-ncol" value="#1a1a1a" oninput="document.getElementById('sv-ncol-t').value=this.value"/><input type="text" id="sv-ncol-t" value="#1a1a1a" style="flex:1;font-family:monospace;font-size:.8rem" oninput="document.getElementById('sv-ncol').value=this.value"/></div></div>
-          <div class="fg"><label>Fonte do Valor</label><select id="sv-pfont"><option value="serif">Serif</option><option value="sans">Sans-Serif</option><option value="mono">Monospace</option></select></div>
-          <div class="fg"><label>Cor do Valor</label><div style="display:flex;gap:.5rem"><input type="color" id="sv-pcol" value="#c5a059" oninput="document.getElementById('sv-pcol-t').value=this.value"/><input type="text" id="sv-pcol-t" value="#c5a059" style="flex:1;font-family:monospace;font-size:.8rem" oninput="document.getElementById('sv-pcol').value=this.value"/></div></div>
-        </div>
-        <div class="fpanel-acts">
-          <button class="btn btn-ghost" onclick="cancelSvcForm()">Cancelar</button>
-          <button class="btn btn-dark" onclick="saveSvc()">Salvar</button>
-        </div>
-      </div>
-      <div class="svc-adm-grid" id="svc-adm-grid"></div>
-    </div>
- 
-    <!-- SETTINGS -->
-    <div id="tab-settings" class="a-sec">
-      <h2 class="a-title">Informações do Salão</h2>
-      <div class="set-form">
-        <div class="set-f"><label>Nome do Salão</label><input type="text" id="set-name"/></div>
-        <div class="set-f"><label>WhatsApp para agendamentos</label><input type="text" id="set-phone"/></div>
-        <div class="set-f"><label>Usuário do Instagram</label><input type="text" id="set-ig" placeholder="@hair.studio.marina"/></div>
-        <div class="set-f"><label>Link Avaliação Google</label><input type="text" id="set-google"/></div>
-        <div class="set-f">
-          <label>Imagem de Capa (URL)</label>
-          <input type="url" id="set-banner" oninput="prvBanner()"/>
-          <div class="set-prev" id="ban-prv" style="display:none"><img id="ban-prv-img" src="" alt=""/></div>
-        </div>
-        <div class="set-foot"><button class="btn btn-gold" onclick="saveSettings()">Salvar Alterações</button></div>
+      <div class="sync-bar-btns">
+        <button class="btn btn-ghost btn-sm" onclick="forceSync()" title="Atualizar dados">🔄 Atualizar</button>
+        <button class="btn btn-ghost btn-sm" onclick="go('view-client')">↗ Ver site</button>
       </div>
     </div>
  
-    <!-- LOYALTY -->
-    <div id="tab-loyalty" class="a-sec">
-      <h2 class="a-title">Programa de Fidelidade</h2>
-      <div class="loy-form">
-        <div class="loy-tog">
-          <div><h3>Ativar Programa</h3><p>Habilite o acúmulo de pontos</p></div>
-          <input type="checkbox" id="loy-on" style="width:1.5rem;height:1.5rem;accent-color:var(--gold)"/>
-        </div>
-        <div class="loy-grid">
-          <div class="fg"><label>Pontos por Agendamento</label><input type="number" id="loy-pts" value="10"/></div>
-          <div class="fg"><label>Bônus de Indicação</label><input type="number" id="loy-ref" value="20"/></div>
-          <div class="fg"><label>Pontos Mínimos para Resgate</label><input type="number" id="loy-min" value="100"/></div>
-          <div class="fg"><label>Desconto por Ponto (R$)</label><input type="number" id="loy-disc" step="0.01" value="0.1"/><p style="font-size:.65rem;color:var(--muted);margin-top:.3rem;font-style:italic">Ex: 0.1 = 10 pts = R$ 1,00</p></div>
-        </div>
-        <div class="loy-foot"><button class="btn btn-dark" onclick="saveLoy()">Atualizar Programa</button></div>
+    <div class="a-content">
+      <!-- AGENDA -->
+      <div id="tab-agenda" class="a-sec on">
+        <h2 class="a-title">Próximos Agendamentos</h2>
+        <div id="appt-wrap"></div>
       </div>
-    </div>
  
-    <!-- CLIENTS -->
-    <div id="tab-clients" class="a-sec">
-      <div class="sec-hdr">
-        <h2 class="a-title" style="margin:0">Ranking de Clientes</h2>
-        <span id="cli-count" style="color:var(--muted);font-size:.85rem"></span>
+      <!-- SERVICES -->
+      <div id="tab-services" class="a-sec">
+        <div class="sec-hdr">
+          <h2 class="a-title" style="margin:0">Serviços Oferecidos</h2>
+          <button class="btn btn-gold" onclick="toggleSvcForm()">+ Novo Serviço</button>
+        </div>
+        <div id="svc-form" class="fpanel" style="display:none">
+          <span class="fpanel-title" id="svc-form-ttl">Cadastrar Novo Serviço</span>
+          <div class="fpanel-grid">
+            <div class="fg"><label>Nome do Serviço</label><input type="text" id="sv-name"/></div>
+            <div class="fg"><label>Duração (min)</label><input type="number" id="sv-dur" value="60"/></div>
+            <div class="fg"><label>Valor (R$)</label><input type="number" id="sv-price" value="0" step="0.01"/></div>
+            <div class="fg"><label>URL da Imagem (Opcional)</label><input type="url" id="sv-img" placeholder="https://..."/></div>
+          </div>
+          <div class="chk-row"><input type="checkbox" id="sv-starts"/><label for="sv-starts">Valor "a partir de"</label></div>
+          <hr class="divider"/>
+          <div class="fpanel-grid">
+            <div class="fg"><label>Fonte do Nome</label><select id="sv-nfont"><option value="sans">Sans-Serif</option><option value="serif">Serif</option><option value="mono">Monospace</option></select></div>
+            <div class="fg"><label>Cor do Nome</label><div style="display:flex;gap:.5rem"><input type="color" id="sv-ncol" value="#1a1a1a" oninput="document.getElementById('sv-ncol-t').value=this.value"/><input type="text" id="sv-ncol-t" value="#1a1a1a" style="flex:1;font-family:monospace;font-size:.8rem" oninput="document.getElementById('sv-ncol').value=this.value"/></div></div>
+            <div class="fg"><label>Fonte do Valor</label><select id="sv-pfont"><option value="serif">Serif</option><option value="sans">Sans-Serif</option><option value="mono">Monospace</option></select></div>
+            <div class="fg"><label>Cor do Valor</label><div style="display:flex;gap:.5rem"><input type="color" id="sv-pcol" value="#c5a059" oninput="document.getElementById('sv-pcol-t').value=this.value"/><input type="text" id="sv-pcol-t" value="#c5a059" style="flex:1;font-family:monospace;font-size:.8rem" oninput="document.getElementById('sv-pcol').value=this.value"/></div></div>
+          </div>
+          <div class="fpanel-acts">
+            <button class="btn btn-ghost" onclick="cancelSvcForm()">Cancelar</button>
+            <button class="btn btn-dark" onclick="saveSvc()">Salvar</button>
+          </div>
+        </div>
+        <div class="svc-adm-grid" id="svc-adm-grid"></div>
       </div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Nome</th><th>WhatsApp</th><th>Pontos</th><th style="text-align:center">Indicações</th><th style="text-align:center">Ações</th></tr></thead>
-          <tbody id="cli-tbody"></tbody>
-        </table>
+ 
+      <!-- SETTINGS -->
+      <div id="tab-settings" class="a-sec">
+        <h2 class="a-title">Informações do Salão</h2>
+        <div class="set-form">
+          <div class="set-f"><label>Nome do Salão</label><input type="text" id="set-name"/></div>
+          <div class="set-f"><label>WhatsApp para agendamentos</label><input type="text" id="set-phone"/></div>
+          <div class="set-f"><label>Usuário do Instagram</label><input type="text" id="set-ig" placeholder="@hair.studio.marina"/></div>
+          <div class="set-f"><label>Link Avaliação Google</label><input type="text" id="set-google"/></div>
+          <div class="set-f">
+            <label>Imagem de Capa (URL)</label>
+            <input type="url" id="set-banner" oninput="prvBanner()"/>
+            <div class="set-prev" id="ban-prv" style="display:none"><img id="ban-prv-img" src="" alt=""/></div>
+          </div>
+          <div class="set-foot"><button class="btn btn-gold" onclick="saveSettings()">Salvar e Publicar</button></div>
+        </div>
       </div>
-    </div>
+ 
+      <!-- LOYALTY -->
+      <div id="tab-loyalty" class="a-sec">
+        <h2 class="a-title">Programa de Fidelidade</h2>
+        <div class="loy-form">
+          <div class="loy-tog">
+            <div><h3>Ativar Programa</h3><p>Habilite o acúmulo de pontos</p></div>
+            <input type="checkbox" id="loy-on" style="width:1.5rem;height:1.5rem;accent-color:var(--gold)"/>
+          </div>
+          <div class="loy-grid">
+            <div class="fg"><label>Pontos por Agendamento</label><input type="number" id="loy-pts" value="10"/></div>
+            <div class="fg"><label>Bônus de Indicação</label><input type="number" id="loy-ref" value="20"/></div>
+            <div class="fg"><label>Pontos Mínimos para Resgate</label><input type="number" id="loy-min" value="100"/></div>
+            <div class="fg"><label>Desconto por Ponto (R$)</label><input type="number" id="loy-disc" step="0.01" value="0.1"/><p style="font-size:.65rem;color:var(--muted);margin-top:.3rem;font-style:italic">Ex: 0.1 = 10 pts = R$ 1,00</p></div>
+          </div>
+          <div class="loy-foot"><button class="btn btn-dark" onclick="saveLoy()">Salvar e Publicar</button></div>
+        </div>
+      </div>
+ 
+      <!-- CLIENTS -->
+      <div id="tab-clients" class="a-sec">
+        <div class="sec-hdr">
+          <h2 class="a-title" style="margin:0">Ranking de Clientes</h2>
+          <span id="cli-count" style="color:var(--muted);font-size:.85rem"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Nome</th><th>WhatsApp</th><th>Pontos</th><th style="text-align:center">Indicações</th><th style="text-align:center">Ações</th></tr></thead>
+            <tbody id="cli-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /a-content -->
   </main>
 </div>
  
@@ -521,24 +578,23 @@ tr:hover td{background:var(--surf)}
     <div style="margin-bottom:1.5rem"><button class="btn btn-ghost" onclick="go('view-client')" style="padding:.5rem 1rem;font-size:.8rem">&#8592; Voltar</button></div>
     <h1 class="upd-title">📋 Histórico de Atualizações</h1>
     <div class="upd-card">
-      <h2>Programa de Fidelidade e Modais Interativos</h2>
-      <div class="upd-date">Últimas Atualizações</div>
+      <h2>Sincronização em Tempo Real</h2>
+      <div class="upd-date">Última Atualização</div>
       <ul class="upd-list">
-        <li><strong>Programa de Fidelidade:</strong> Clientes acumulam pontos a cada atendimento concluído.</li>
-        <li><strong>Indique e Ganhe:</strong> Clientes recebem pontos bônus ao indicar amigas.</li>
-        <li><strong>Gestão de Fidelidade (Admin):</strong> Aba dedicada para ligar/desligar o programa e configurar pontos.</li>
-        <li><strong>Ranking de Clientes (Admin):</strong> Listagem com pontos e indicações de cada cliente.</li>
-        <li><strong>Modal de Sucesso:</strong> Tela animada com redirecionamento automático para WhatsApp.</li>
-        <li><strong>Consulta de Pontos (Cliente):</strong> Clientes consultam saldo pelo WhatsApp e compartilham indicação.</li>
+        <li><strong>Dados na Nuvem:</strong> Todas as alterações feitas no painel admin são salvas automaticamente na nuvem e ficam disponíveis para qualquer cliente imediatamente.</li>
+        <li><strong>Sem precisar baixar novo arquivo:</strong> O cliente abre o mesmo link de sempre e já vê as informações atualizadas.</li>
+        <li><strong>Barra de status de sincronização:</strong> O painel admin mostra em tempo real se os dados estão salvos, salvando ou com erro.</li>
+        <li><strong>Botão "Atualizar" no admin:</strong> Permite recarregar os dados da nuvem manualmente a qualquer momento.</li>
       </ul>
     </div>
     <div class="upd-card">
-      <h2>Customização e Edição de Serviços</h2>
+      <h2>Programa de Fidelidade e Modais</h2>
       <div class="upd-date">Atualizações Anteriores</div>
       <ul class="upd-list">
-        <li><strong>Edição Avançada:</strong> Editar serviços existentes sem precisar excluí-los.</li>
-        <li><strong>Opção "A partir de":</strong> Checkbox para prefixar valores não fixos.</li>
-        <li><strong>Customização Visual:</strong> Fonte e cor do nome e preço do serviço personalizáveis.</li>
+        <li><strong>Programa de Fidelidade:</strong> Clientes acumulam pontos a cada atendimento concluído.</li>
+        <li><strong>Indique e Ganhe:</strong> Clientes recebem pontos bônus ao indicar amigas.</li>
+        <li><strong>Ranking de Clientes:</strong> Listagem com pontos e indicações de cada cliente.</li>
+        <li><strong>Modal de Sucesso:</strong> Tela animada com redirecionamento para WhatsApp.</li>
       </ul>
     </div>
     <div class="upd-card">
@@ -576,10 +632,15 @@ tr:hover td{background:var(--surf)}
   </div>
 </div>
  
-<div id="toast" class="toast" style="display:none"></div>
+<div id="toast" class="toast info" style="display:none"></div>
  
 <script>
-// ══ DATA ══
+// ═══════════════════════════════════════════════════
+//  STORAGE LAYER — salva na nuvem (window.storage)
+//  e usa localStorage como fallback/cache local
+// ═══════════════════════════════════════════════════
+var CLOUD_KEY = 'marina_app_v2';
+ 
 var DEFAULT = {
   settings:{salonName:"Studio Marina Hair",phone:"11 96646-2521",googleReviewUrl:"https://g.page/r/CSmwQUgRrY4-EBM/review",instagram:"@hair.studio.marina",bannerUrl:"https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"},
   loyaltySettings:{enabled:true,pointsPerService:10,referralBonus:20,minPointsToRedeem:100,discountPerPoint:0.1},
@@ -588,19 +649,161 @@ var DEFAULT = {
     {id:"2",name:"Escova Modeladora",price:60,duration:40,image:"https://images.unsplash.com/photo-1595476108010-b4d1f10d5e43?auto=format&fit=crop&w=400&q=80",startsAt:false,nameFontFamily:"sans",nameColor:"#1a1a1a",priceFontFamily:"serif",priceColor:"#c5a059"},
     {id:"3",name:"Coloração Completa",price:150,duration:120,image:"https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=400&q=80",startsAt:true,nameFontFamily:"sans",nameColor:"#1a1a1a",priceFontFamily:"serif",priceColor:"#c5a059"}
   ],
-  appointments:[],clients:[]
+  appointments:[],clients:[],_updatedAt:null
 };
-var PW = "marina2024";
  
-function loadApp(){
+var PW = "marina2024";
+var APP = null;
+var syncInProgress = false;
+var lastSyncTime = null;
+var useCloud = (typeof window.storage !== 'undefined');
+ 
+// ── cache local (fallback) ──
+function localSave(data){
+  try{ localStorage.setItem('smh_cache', JSON.stringify(data)); }catch(e){}
+}
+function localLoad(){
   try{
-    var s = localStorage.getItem('smh_data');
+    var s = localStorage.getItem('smh_cache');
     if(s){ var d=JSON.parse(s); if(d&&d.settings) return d; }
   }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT));
+  return null;
 }
-function save(){ try{localStorage.setItem('smh_data',JSON.stringify(APP));}catch(e){} }
-var APP = loadApp();
+ 
+// ── carrega da nuvem ──
+function cloudLoad(cb){
+  if(!useCloud){ cb(null); return; }
+  window.storage.get(CLOUD_KEY, true)
+    .then(function(res){
+      if(res && res.value){
+        try{ cb(JSON.parse(res.value)); }
+        catch(e){ cb(null); }
+      } else { cb(null); }
+    })
+    .catch(function(){ cb(null); });
+}
+ 
+// ── salva na nuvem ──
+function cloudSave(data, onDone, onErr){
+  if(!useCloud){ if(onDone) onDone(); return; }
+  data._updatedAt = new Date().toISOString();
+  window.storage.set(CLOUD_KEY, JSON.stringify(data), true)
+    .then(function(){ if(onDone) onDone(); })
+    .catch(function(e){ if(onErr) onErr(e); });
+}
+ 
+// ── salva em ambos ──
+function save(opts){
+  opts = opts||{};
+  localSave(APP);
+ 
+  if(!useCloud){
+    if(opts.onDone) opts.onDone();
+    return;
+  }
+ 
+  setSyncStatus('saving');
+  cloudSave(APP,
+    function(){
+      lastSyncTime = new Date();
+      setSyncStatus('ok');
+      if(opts.onDone) opts.onDone();
+      if(opts.toast) toast(opts.toast, 'ok');
+    },
+    function(){
+      setSyncStatus('err');
+      if(opts.toast) toast('⚠️ Salvo localmente. Verifique sua conexão.', 'err');
+      if(opts.onDone) opts.onDone();
+    }
+  );
+}
+ 
+// ── sincronizar (pull) ──
+function forceSync(){
+  if(syncInProgress) return;
+  syncInProgress = true;
+  setSyncStatus('saving');
+  setLoading('Sincronizando com a nuvem...');
+  cloudLoad(function(data){
+    syncInProgress = false;
+    if(data && data.settings){
+      APP = data;
+      localSave(APP);
+      lastSyncTime = new Date();
+      setSyncStatus('ok');
+    } else {
+      setSyncStatus(useCloud ? 'err' : 'ok');
+    }
+    hideLoading();
+    // re-render current view
+    var activeView = document.querySelector('.view.active');
+    if(activeView){
+      var id = activeView.id;
+      if(id==='view-client') renderClient();
+      if(id==='view-admin'){ renderAgenda(); }
+    }
+    toast('Dados atualizados!', 'ok');
+  });
+}
+ 
+// ── status bar ──
+function setSyncStatus(state){
+  var dot = document.getElementById('sync-dot');
+  var lbl = document.getElementById('sync-label');
+  var tim = document.getElementById('sync-time');
+  if(!dot) return;
+  dot.className = 'sync-dot ' + state;
+  if(state==='ok'){
+    lbl.textContent = useCloud ? 'Sincronizado com a nuvem ☁️' : 'Salvo localmente';
+    if(lastSyncTime) tim.textContent = '· ' + lastSyncTime.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  } else if(state==='saving'){
+    lbl.textContent = 'Salvando na nuvem...';
+    tim.textContent = '';
+  } else {
+    lbl.textContent = '⚠️ Erro ao sincronizar';
+    tim.textContent = '';
+  }
+}
+ 
+// ── loading screen ──
+function setLoading(msg){
+  var scr = document.getElementById('loading-screen');
+  var m = document.getElementById('loading-msg');
+  if(scr) scr.style.display='flex';
+  if(m) m.textContent = msg||'Carregando...';
+}
+function hideLoading(){
+  var scr = document.getElementById('loading-screen');
+  if(scr) scr.style.display='none';
+}
+ 
+// ══ BOOT ══ — carrega dados e inicia app
+(function boot(){
+  setLoading('Carregando dados do salão...');
+ 
+  // tenta carregar da nuvem primeiro
+  cloudLoad(function(cloudData){
+    var localData = localLoad();
+ 
+    if(cloudData && cloudData.settings){
+      // nuvem tem dados — usa nuvem
+      APP = cloudData;
+      localSave(APP); // atualiza cache local
+      lastSyncTime = new Date();
+    } else if(localData && localData.settings){
+      // só tem local — usa local
+      APP = localData;
+    } else {
+      // nada ainda — usa default
+      APP = JSON.parse(JSON.stringify(DEFAULT));
+    }
+ 
+    hideLoading();
+    // inicia na tela do cliente
+    document.getElementById('view-client').classList.add('active');
+    renderClient();
+  });
+})();
  
 // ══ ROUTING ══
 function go(id){
@@ -615,6 +818,7 @@ function go(id){
 var FM = {sans:'Inter,sans-serif',serif:"'Playfair Display',serif",mono:"'Courier New',monospace"};
  
 function renderClient(){
+  if(!APP) return;
   var s = APP.settings;
   document.getElementById('hero-img').src = s.bannerUrl||DEFAULT.settings.bannerUrl;
   document.getElementById('hero-name').textContent = s.salonName;
@@ -626,7 +830,10 @@ function renderClient(){
   document.getElementById('ft-copy').textContent = '© '+new Date().getFullYear()+' '+s.salonName+'. Todos os direitos reservados.';
  
   var g = document.getElementById('svc-grid');
-  if(!APP.services.length){g.innerHTML='<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:2rem">Nenhum serviço cadastrado.</p>';return;}
+  if(!APP.services||!APP.services.length){
+    g.innerHTML='<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:2rem">Nenhum serviço cadastrado.</p>';
+    return;
+  }
   g.innerHTML = APP.services.map(function(sv){
     return '<div class="svc-card" onclick="startBk(\''+sv.id+'\')">'
       +(sv.image?'<div class="svc-img"><img src="'+sv.image+'" alt="'+sv.name+'" loading="lazy"/></div>':'')
@@ -645,6 +852,7 @@ var selSvc=null, selDate=null, selTime=null, calMon=new Date();
  
 function startBk(id){
   selSvc=APP.services.find(function(s){return s.id===id;});
+  if(!selSvc) return;
   selDate=null; selTime=null; calMon=new Date();
   document.getElementById('svc-section').style.display='none';
   document.getElementById('bk-section').style.display='block';
@@ -697,7 +905,7 @@ function buildSlots(){
   var w=document.getElementById('slots');
   if(!selDate){w.innerHTML='<div class="slots-empty">Selecione uma data para ver os horários</div>';return;}
   var ds=fmtD(selDate);
-  var booked=APP.appointments.filter(function(a){return a.date===ds;}).map(function(a){return a.time;});
+  var booked=(APP.appointments||[]).filter(function(a){return a.date===ds;}).map(function(a){return a.time;});
   var sl=[];
   for(var h=9;h<18;h++){var t=pad(h)+':00';if(booked.indexOf(t)===-1)sl.push(t);}
   if(!sl.length){w.innerHTML='<div class="slots-empty">Sem horários disponíveis nesta data</div>';return;}
@@ -719,10 +927,12 @@ function submitBooking(){
   var ref=(document.getElementById('cli-ref').value||'').trim();
   if(!selSvc||!selDate||!selTime||!name||!phone){alert('Preencha todos os campos obrigatórios.');return;}
   var appt={id:''+Date.now(),serviceId:selSvc.id,date:fmtD(selDate),time:selTime,clientName:name,clientPhone:phone,createdAt:new Date().toISOString()};
+  if(!APP.appointments) APP.appointments=[];
   APP.appointments.push(appt);
-  if(ref){var rr=APP.clients.find(function(c){return c.phone===ref;});if(rr){rr.referrals=(rr.referrals||0)+1;rr.points=(rr.points||0)+(APP.loyaltySettings&&APP.loyaltySettings.referralBonus?APP.loyaltySettings.referralBonus:0);}}
+  if(ref){var rr=(APP.clients||[]).find(function(c){return c.phone===ref;});if(rr){rr.referrals=(rr.referrals||0)+1;rr.points=(rr.points||0)+(APP.loyaltySettings&&APP.loyaltySettings.referralBonus?APP.loyaltySettings.referralBonus:0);}}
+  if(!APP.clients) APP.clients=[];
   if(!APP.clients.find(function(c){return c.phone===phone;})) APP.clients.push({id:''+Date.now()+'c',name:name,phone:phone,points:0,referrals:0});
-  save();
+  save({});
   document.getElementById('ok-modal').style.display='flex';
   var ds=fmtD(selDate), ts=selTime;
   setTimeout(function(){
@@ -745,7 +955,7 @@ function closeLoyOuter(e){if(e.target.id==='loy-modal')closeLoy();}
 function checkLoy(){
   var ph=(document.getElementById('loy-phone').value||'').trim();
   if(!ph)return;
-  var c=APP.clients.find(function(x){return x.phone===ph;});
+  var c=(APP.clients||[]).find(function(x){return x.phone===ph;});
   if(!c){alert('Cliente não encontrado ou sem pontos ainda.');return;}
   loyClient=c;
   document.getElementById('loy-form').style.display='none';
@@ -764,7 +974,23 @@ function shareRef(){
  
 // ══ ADMIN ══
 function goAdmin(){document.getElementById('login-ov').style.display='flex';document.getElementById('pw').value='';document.getElementById('pw-err').style.display='none';setTimeout(function(){document.getElementById('pw').focus();},100);}
-function doLogin(){if(document.getElementById('pw').value===PW){document.getElementById('login-ov').style.display='none';go('view-admin');}else document.getElementById('pw-err').style.display='block';}
+function doLogin(){
+  if(document.getElementById('pw').value===PW){
+    document.getElementById('login-ov').style.display='none';
+    go('view-admin');
+    // ao entrar no admin, faz pull da nuvem pra garantir dados frescos
+    if(useCloud){
+      setSyncStatus('saving');
+      cloudLoad(function(d){
+        if(d&&d.settings){ APP=d; localSave(APP); lastSyncTime=new Date(); }
+        setSyncStatus(useCloud?'ok':'ok');
+        renderAdmin();
+      });
+    }
+  } else {
+    document.getElementById('pw-err').style.display='block';
+  }
+}
  
 function setTab(t,btn){
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
@@ -778,19 +1004,21 @@ function setTab(t,btn){
   if(t==='loyalty')loadLoy();
 }
  
-function renderAdmin(){renderAgenda();loadSettings();loadLoy();}
+function renderAdmin(){renderAgenda();loadSettings();loadLoy();setSyncStatus(useCloud?'ok':'ok');}
  
-// Agenda
+// ── AGENDA ──
 function renderAgenda(){
   var wrap=document.getElementById('appt-wrap');
+  if(!wrap) return;
   var now=new Date(), cut=new Date(now.getTime()-2*60*60*1000);
-  var up=APP.appointments.filter(function(a){return new Date(a.date+'T'+a.time)>cut;}).sort(function(a,b){return new Date(a.date+'T'+a.time)-new Date(b.date+'T'+b.time);});
+  var appts=APP.appointments||[];
+  var up=appts.filter(function(a){return new Date(a.date+'T'+a.time)>cut;}).sort(function(a,b){return new Date(a.date+'T'+a.time)-new Date(b.date+'T'+b.time);});
   if(!up.length){wrap.innerHTML='<div class="empty">Nenhum agendamento futuro encontrado.</div>';return;}
   var MONS=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   var tod=fmtD(now);
   wrap.innerHTML='<div class="appt-list">'+up.map(function(a){
     var dt=new Date(a.date+'T'+a.time);
-    var sn=(APP.services.find(function(s){return s.id===a.serviceId;})||{name:'Serviço'}).name;
+    var sn=((APP.services||[]).find(function(s){return s.id===a.serviceId;})||{name:'Serviço'}).name;
     var isT=a.date===tod;
     var waNum=(a.clientPhone||'').replace(/\D/g,'');
     return '<div class="appt'+(isT?' today':'')+'">'
@@ -808,25 +1036,33 @@ function renderAgenda(){
 }
  
 function doneAppt(id){
-  var a=APP.appointments.find(function(x){return x.id===id;});
+  var a=(APP.appointments||[]).find(function(x){return x.id===id;});
   if(!a)return;
   if(!confirm('Concluir atendimento e creditar pontos?'))return;
   if(APP.loyaltySettings&&APP.loyaltySettings.enabled){
+    if(!APP.clients) APP.clients=[];
     var c=APP.clients.find(function(x){return x.phone===a.clientPhone;});
     if(!c){c={id:''+Date.now()+'c',name:a.clientName,phone:a.clientPhone,points:0,referrals:0};APP.clients.push(c);}
     c.points=(c.points||0)+(APP.loyaltySettings.pointsPerService||0);
   }
   APP.appointments=APP.appointments.filter(function(x){return x.id!==id;});
-  save(); renderAgenda(); toast('Atendimento concluído! Pontos creditados.');
+  save({toast:'✅ Atendimento concluído! Pontos creditados.'});
+  renderAgenda();
 }
-function cancelAppt(id){if(!confirm('Cancelar este agendamento?'))return;APP.appointments=APP.appointments.filter(function(x){return x.id!==id;});save();renderAgenda();toast('Agendamento cancelado.');}
+function cancelAppt(id){
+  if(!confirm('Cancelar este agendamento?'))return;
+  APP.appointments=(APP.appointments||[]).filter(function(x){return x.id!==id;});
+  save({toast:'Agendamento cancelado.'});
+  renderAgenda();
+}
  
-// Services admin
+// ── SERVICES ADMIN ──
 var editSvcId=null;
 function renderSvcAdmin(){
   var g=document.getElementById('svc-adm-grid');
-  if(!APP.services.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum serviço cadastrado.</div>';return;}
-  g.innerHTML=APP.services.map(function(s){
+  var svcs=APP.services||[];
+  if(!svcs.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum serviço cadastrado.</div>';return;}
+  g.innerHTML=svcs.map(function(s){
     return '<div class="svc-adm">'
       +(s.image?'<img class="svc-adm-img" src="'+s.image+'" alt="'+s.name+'" loading="lazy"/>':'')
       +'<div style="font-family:'+FM[s.nameFontFamily||'sans']+';color:'+(s.nameColor||'#1a1a1a')+';font-weight:500;margin-bottom:.25rem">'+s.name+'</div>'
@@ -854,7 +1090,7 @@ function toggleSvcForm(){
 }
 function cancelSvcForm(){document.getElementById('svc-form').style.display='none';editSvcId=null;}
 function editSvc(id){
-  var s=APP.services.find(function(x){return x.id===id;}); if(!s)return;
+  var s=(APP.services||[]).find(function(x){return x.id===id;}); if(!s)return;
   editSvcId=id; document.getElementById('svc-form-ttl').textContent='Editar Serviço';
   document.getElementById('sv-name').value=s.name; document.getElementById('sv-dur').value=s.duration;
   document.getElementById('sv-price').value=s.price; document.getElementById('sv-img').value=s.image||'';
@@ -869,13 +1105,20 @@ function editSvc(id){
 function saveSvc(){
   var n=(document.getElementById('sv-name').value||'').trim(); if(!n){alert('Nome obrigatório.');return;}
   var d={name:n,duration:parseInt(document.getElementById('sv-dur').value)||60,price:parseFloat(document.getElementById('sv-price').value)||0,image:(document.getElementById('sv-img').value||'').trim(),startsAt:document.getElementById('sv-starts').checked,nameFontFamily:document.getElementById('sv-nfont').value,nameColor:document.getElementById('sv-ncol').value,priceFontFamily:document.getElementById('sv-pfont').value,priceColor:document.getElementById('sv-pcol').value};
+  if(!APP.services) APP.services=[];
   if(editSvcId){var i=APP.services.findIndex(function(x){return x.id===editSvcId;});if(i!==-1)APP.services[i]=Object.assign({},APP.services[i],d);}
   else APP.services.push(Object.assign({id:''+Date.now()},d));
-  save(); document.getElementById('svc-form').style.display='none'; editSvcId=null; renderSvcAdmin(); toast('Serviço salvo!');
+  document.getElementById('svc-form').style.display='none'; editSvcId=null; renderSvcAdmin();
+  save({toast:'✅ Serviço salvo e publicado! Clientes já podem ver.'});
 }
-function delSvc(id){if(!confirm('Remover este serviço?'))return;APP.services=APP.services.filter(function(x){return x.id!==id;});save();renderSvcAdmin();toast('Serviço removido.');}
+function delSvc(id){
+  if(!confirm('Remover este serviço?'))return;
+  APP.services=(APP.services||[]).filter(function(x){return x.id!==id;});
+  renderSvcAdmin();
+  save({toast:'Serviço removido.'});
+}
  
-// Settings
+// ── SETTINGS ──
 function loadSettings(){
   var s=APP.settings||{};
   document.getElementById('set-name').value=s.salonName||'';
@@ -886,15 +1129,33 @@ function loadSettings(){
   prvBanner();
 }
 function prvBanner(){var u=(document.getElementById('set-banner').value||'').trim();var p=document.getElementById('ban-prv');if(u){p.style.display='block';document.getElementById('ban-prv-img').src=u;}else p.style.display='none';}
-function saveSettings(){APP.settings={salonName:(document.getElementById('set-name').value||'').trim(),phone:(document.getElementById('set-phone').value||'').trim(),instagram:(document.getElementById('set-ig').value||'').trim(),googleReviewUrl:(document.getElementById('set-google').value||'').trim(),bannerUrl:(document.getElementById('set-banner').value||'').trim()};save();toast('Configurações salvas!');}
+function saveSettings(){
+  APP.settings={
+    salonName:(document.getElementById('set-name').value||'').trim(),
+    phone:(document.getElementById('set-phone').value||'').trim(),
+    instagram:(document.getElementById('set-ig').value||'').trim(),
+    googleReviewUrl:(document.getElementById('set-google').value||'').trim(),
+    bannerUrl:(document.getElementById('set-banner').value||'').trim()
+  };
+  save({toast:'✅ Configurações salvas e publicadas! Clientes já veem as mudanças.'});
+}
  
-// Loyalty
+// ── LOYALTY ──
 function loadLoy(){var l=APP.loyaltySettings||{};document.getElementById('loy-on').checked=!!l.enabled;document.getElementById('loy-pts').value=l.pointsPerService||10;document.getElementById('loy-ref').value=l.referralBonus||20;document.getElementById('loy-min').value=l.minPointsToRedeem||100;document.getElementById('loy-disc').value=l.discountPerPoint||0.1;}
-function saveLoy(){APP.loyaltySettings={enabled:document.getElementById('loy-on').checked,pointsPerService:parseInt(document.getElementById('loy-pts').value)||0,referralBonus:parseInt(document.getElementById('loy-ref').value)||0,minPointsToRedeem:parseInt(document.getElementById('loy-min').value)||0,discountPerPoint:parseFloat(document.getElementById('loy-disc').value)||0};save();toast('Programa de fidelidade atualizado!');}
+function saveLoy(){
+  APP.loyaltySettings={
+    enabled:document.getElementById('loy-on').checked,
+    pointsPerService:parseInt(document.getElementById('loy-pts').value)||0,
+    referralBonus:parseInt(document.getElementById('loy-ref').value)||0,
+    minPointsToRedeem:parseInt(document.getElementById('loy-min').value)||0,
+    discountPerPoint:parseFloat(document.getElementById('loy-disc').value)||0
+  };
+  save({toast:'✅ Programa de fidelidade atualizado!'});
+}
  
-// Clients
+// ── CLIENTS ──
 function renderClients(){
-  var cs=APP.clients.slice().sort(function(a,b){return (b.points||0)-(a.points||0);});
+  var cs=(APP.clients||[]).slice().sort(function(a,b){return (b.points||0)-(a.points||0);});
   document.getElementById('cli-count').textContent=cs.length+' clientes registrados';
   var tb=document.getElementById('cli-tbody');
   if(!cs.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--muted);font-style:italic">Nenhum cliente ainda.</td></tr>';return;}
@@ -905,15 +1166,23 @@ function renderClients(){
       +'<td style="text-align:center"><button class="btn btn-danger btn-icon" onclick="delClient(\''+c.id+'\')">🗑</button></td></tr>';
   }).join('');
 }
-function delClient(id){if(!confirm('Excluir este cliente?'))return;APP.clients=APP.clients.filter(function(c){return c.id!==id;});save();renderClients();toast('Cliente excluído.');}
+function delClient(id){
+  if(!confirm('Excluir este cliente?'))return;
+  APP.clients=(APP.clients||[]).filter(function(c){return c.id!==id;});
+  renderClients();
+  save({toast:'Cliente excluído.'});
+}
  
-// Toast
+// ── TOAST ──
 var toastT;
-function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(toastT);toastT=setTimeout(function(){t.style.display='none';},3000);}
- 
-// Boot
-renderClient();
+function toast(msg, type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type||'info');
+  t.style.display='block';
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){t.style.display='none';},4000);
+}
 </script>
 </body>
 </html>
-  
