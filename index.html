@@ -671,33 +671,56 @@ function localLoad(){
 }
  
 // ── carrega da nuvem ──
+// CORRIGIDO: window.storage.get lança exceção quando a chave não existe
+// em vez de retornar null — tratamos ambos os casos no catch
 function cloudLoad(cb){
   if(!useCloud){ cb(null); return; }
   window.storage.get(CLOUD_KEY, true)
     .then(function(res){
       if(res && res.value){
         try{ cb(JSON.parse(res.value)); }
-        catch(e){ cb(null); }
-      } else { cb(null); }
+        catch(e){ cb(null); } // JSON inválido
+      } else {
+        cb(null); // chave retornou vazia
+      }
     })
-    .catch(function(){ cb(null); });
+    .catch(function(){
+      // chave não existe OU erro de rede — ambos tratados igual
+      cb(null);
+    });
 }
  
 // ── salva na nuvem ──
+// CORRIGIDO: não muta data diretamente — cria cópia limpa antes de serializar
 function cloudSave(data, onDone, onErr){
   if(!useCloud){ if(onDone) onDone(); return; }
-  data._updatedAt = new Date().toISOString();
-  window.storage.set(CLOUD_KEY, JSON.stringify(data), true)
-    .then(function(){ if(onDone) onDone(); })
+  var payload;
+  try{
+    // cria cópia rasa para não corromper APP com _updatedAt
+    payload = JSON.parse(JSON.stringify(data));
+    payload._updatedAt = new Date().toISOString();
+  }catch(e){ if(onErr) onErr(e); return; }
+ 
+  window.storage.set(CLOUD_KEY, JSON.stringify(payload), true)
+    .then(function(res){
+      // window.storage.set pode retornar null em caso de falha silenciosa
+      if(res === null){ if(onErr) onErr(new Error('set retornou null')); return; }
+      if(onDone) onDone();
+    })
     .catch(function(e){ if(onErr) onErr(e); });
 }
  
 // ── salva em ambos ──
+// CORRIGIDO: toast e onDone disparam mesmo sem nuvem
 function save(opts){
   opts = opts||{};
   localSave(APP);
  
   if(!useCloud){
+    // sem nuvem: salva só local e avisa normalmente
+    lastSyncTime = new Date();
+    setSyncStatus('ok');
+    if(opts.toast) toast(opts.toast, 'ok');
     if(opts.onDone) opts.onDone();
     return;
   }
@@ -707,12 +730,12 @@ function save(opts){
     function(){
       lastSyncTime = new Date();
       setSyncStatus('ok');
-      if(opts.onDone) opts.onDone();
       if(opts.toast) toast(opts.toast, 'ok');
+      if(opts.onDone) opts.onDone();
     },
     function(){
       setSyncStatus('err');
-      if(opts.toast) toast('⚠️ Salvo localmente. Verifique sua conexão.', 'err');
+      if(opts.toast) toast('⚠️ Salvo localmente. Verifique conexão.', 'err');
       if(opts.onDone) opts.onDone();
     }
   );
@@ -723,7 +746,6 @@ function forceSync(){
   if(syncInProgress) return;
   syncInProgress = true;
   setSyncStatus('saving');
-  setLoading('Sincronizando com a nuvem...');
   cloudLoad(function(data){
     syncInProgress = false;
     if(data && data.settings){
@@ -732,36 +754,42 @@ function forceSync(){
       lastSyncTime = new Date();
       setSyncStatus('ok');
     } else {
-      setSyncStatus(useCloud ? 'err' : 'ok');
+      setSyncStatus('ok'); // sem dados na nuvem ainda é estado válido
     }
-    hideLoading();
-    // re-render current view
-    var activeView = document.querySelector('.view.active');
-    if(activeView){
-      var id = activeView.id;
-      if(id==='view-client') renderClient();
-      if(id==='view-admin'){ renderAgenda(); }
+    // re-render aba ativa do admin
+    var activeTab = document.querySelector('.a-sec.on');
+    if(activeTab){
+      var tid = activeTab.id;
+      if(tid==='tab-agenda')   renderAgenda();
+      if(tid==='tab-services') renderSvcAdmin();
+      if(tid==='tab-clients')  renderClients();
+      if(tid==='tab-settings') loadSettings();
+      if(tid==='tab-loyalty')  loadLoy();
     }
     toast('Dados atualizados!', 'ok');
   });
 }
  
 // ── status bar ──
+// CORRIGIDO: guard total — elementos podem não existir se admin ainda não foi renderizado
 function setSyncStatus(state){
   var dot = document.getElementById('sync-dot');
   var lbl = document.getElementById('sync-label');
   var tim = document.getElementById('sync-time');
-  if(!dot) return;
+  if(!dot || !lbl) return; // admin não está visível ainda
   dot.className = 'sync-dot ' + state;
   if(state==='ok'){
     lbl.textContent = useCloud ? 'Sincronizado com a nuvem ☁️' : 'Salvo localmente';
-    if(lastSyncTime) tim.textContent = '· ' + lastSyncTime.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    if(tim && lastSyncTime){
+      try{ tim.textContent = '· ' + lastSyncTime.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+      catch(e){ tim.textContent = ''; }
+    }
   } else if(state==='saving'){
-    lbl.textContent = 'Salvando na nuvem...';
-    tim.textContent = '';
+    lbl.textContent = 'Salvando...';
+    if(tim) tim.textContent = '';
   } else {
     lbl.textContent = '⚠️ Erro ao sincronizar';
-    tim.textContent = '';
+    if(tim) tim.textContent = '';
   }
 }
  
@@ -975,20 +1003,25 @@ function shareRef(){
 // ══ ADMIN ══
 function goAdmin(){document.getElementById('login-ov').style.display='flex';document.getElementById('pw').value='';document.getElementById('pw-err').style.display='none';setTimeout(function(){document.getElementById('pw').focus();},100);}
 function doLogin(){
-  if(document.getElementById('pw').value===PW){
-    document.getElementById('login-ov').style.display='none';
-    go('view-admin');
-    // ao entrar no admin, faz pull da nuvem pra garantir dados frescos
-    if(useCloud){
-      setSyncStatus('saving');
-      cloudLoad(function(d){
-        if(d&&d.settings){ APP=d; localSave(APP); lastSyncTime=new Date(); }
-        setSyncStatus(useCloud?'ok':'ok');
-        renderAdmin();
-      });
-    }
-  } else {
+  if(document.getElementById('pw').value !== PW){
     document.getElementById('pw-err').style.display='block';
+    return;
+  }
+  document.getElementById('login-ov').style.display='none';
+  go('view-admin');
+ 
+  // ao entrar no admin, faz pull para garantir dados frescos
+  if(useCloud){
+    setSyncStatus('saving');
+    cloudLoad(function(d){
+      if(d && d.settings){
+        APP = d;
+        localSave(APP);
+        lastSyncTime = new Date();
+      }
+      setSyncStatus('ok');
+      renderAdmin(); // re-render com dados frescos
+    });
   }
 }
  
@@ -1004,7 +1037,13 @@ function setTab(t,btn){
   if(t==='loyalty')loadLoy();
 }
  
-function renderAdmin(){renderAgenda();loadSettings();loadLoy();setSyncStatus(useCloud?'ok':'ok');}
+function renderAdmin(){
+  renderAgenda();
+  loadSettings();
+  loadLoy();
+  // status bar só atualiza depois que o DOM do admin já está visível
+  setTimeout(function(){ setSyncStatus(lastSyncTime ? 'ok' : 'ok'); }, 0);
+}
  
 // ── AGENDA ──
 function renderAgenda(){
@@ -1103,13 +1142,43 @@ function editSvc(id){
   document.getElementById('svc-form').scrollIntoView({behavior:'smooth'});
 }
 function saveSvc(){
-  var n=(document.getElementById('sv-name').value||'').trim(); if(!n){alert('Nome obrigatório.');return;}
-  var d={name:n,duration:parseInt(document.getElementById('sv-dur').value)||60,price:parseFloat(document.getElementById('sv-price').value)||0,image:(document.getElementById('sv-img').value||'').trim(),startsAt:document.getElementById('sv-starts').checked,nameFontFamily:document.getElementById('sv-nfont').value,nameColor:document.getElementById('sv-ncol').value,priceFontFamily:document.getElementById('sv-pfont').value,priceColor:document.getElementById('sv-pcol').value};
-  if(!APP.services) APP.services=[];
-  if(editSvcId){var i=APP.services.findIndex(function(x){return x.id===editSvcId;});if(i!==-1)APP.services[i]=Object.assign({},APP.services[i],d);}
-  else APP.services.push(Object.assign({id:''+Date.now()},d));
-  document.getElementById('svc-form').style.display='none'; editSvcId=null; renderSvcAdmin();
-  save({toast:'✅ Serviço salvo e publicado! Clientes já podem ver.'});
+  var n=(document.getElementById('sv-name').value||'').trim();
+  if(!n){ alert('Nome do serviço é obrigatório.'); return; }
+ 
+  var priceRaw = parseFloat(document.getElementById('sv-price').value);
+  var durRaw   = parseInt(document.getElementById('sv-dur').value);
+  if(isNaN(priceRaw) || priceRaw < 0){ alert('Valor inválido.'); return; }
+  if(isNaN(durRaw)   || durRaw < 1  ){ alert('Duração inválida.'); return; }
+ 
+  var d = {
+    name       : n,
+    duration   : durRaw,
+    price      : priceRaw,
+    image      : (document.getElementById('sv-img').value||'').trim(),
+    startsAt   : document.getElementById('sv-starts').checked,
+    nameFontFamily : document.getElementById('sv-nfont').value,
+    nameColor      : document.getElementById('sv-ncol').value  || '#1a1a1a',
+    priceFontFamily: document.getElementById('sv-pfont').value,
+    priceColor     : document.getElementById('sv-pcol').value  || '#c5a059'
+  };
+ 
+  if(!Array.isArray(APP.services)) APP.services = [];
+ 
+  if(editSvcId){
+    var i = APP.services.findIndex(function(x){ return x.id===editSvcId; });
+    if(i !== -1) APP.services[i] = Object.assign({}, APP.services[i], d);
+    else APP.services.push(Object.assign({ id: editSvcId }, d)); // segurança
+  } else {
+    APP.services.push(Object.assign({ id: ''+Date.now() }, d));
+  }
+ 
+  // fecha formulário e re-renderiza ANTES do save assíncrono
+  document.getElementById('svc-form').style.display = 'none';
+  editSvcId = null;
+  renderSvcAdmin();
+ 
+  // salva (pode ser assíncrono)
+  save({ toast: '✅ Serviço salvo! Clientes já podem ver.' });
 }
 function delSvc(id){
   if(!confirm('Remover este serviço?'))return;
@@ -1186,3 +1255,4 @@ function toast(msg, type){
 </script>
 </body>
 </html>
+ 
