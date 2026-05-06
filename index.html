@@ -13,14 +13,14 @@
   --green:#16a34a;--red:#dc2626;
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
- 
+
 /* ── VIEWS ── */
 .view{display:none!important}
 .view.active{display:block!important}
 #view-admin.active{display:flex!important;flex-direction:column}
 @media(min-width:768px){#view-admin.active{flex-direction:row}}
 #view-download.active{display:flex!important;align-items:center;justify-content:center;min-height:100vh;background:#f9fafb;padding:1rem}
- 
+
 /* ── LOADING SCREEN ── */
 #loading-screen{
   position:fixed;inset:0;background:var(--bg);z-index:9999;
@@ -30,7 +30,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 #loading-screen p{font-size:.8rem;color:var(--muted)}
 .spinner{width:2.5rem;height:2.5rem;border:3px solid var(--gold-l);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
- 
+
 /* ── SYNC STATUS BAR (Admin) ── */
 .sync-bar{
   display:flex;align-items:center;justify-content:space-between;
@@ -49,7 +49,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .sync-time{color:var(--muted);font-size:.68rem}
 .sync-bar-btns{display:flex;gap:.5rem}
- 
+
 /* ── HERO ── */
 #view-client{min-height:100vh;padding-bottom:5rem;background:#faf9f7}
 .hero{position:relative;height:280px;overflow:hidden}
@@ -64,13 +64,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 .hbtn:hover{background:rgba(255,255,255,.3)}
 .hbtn.gold{background:rgba(197,160,89,.75);font-weight:700}
 .hbtn.gold:hover{background:rgba(197,160,89,.9)}
- 
+
 /* ── CONTAINER / CARD ── */
 .wrap{max-width:56rem;margin:-2.5rem auto 0;padding:0 1rem;position:relative;z-index:10}
 .card{background:#fff;border:1px solid var(--bdr);box-shadow:0 4px 24px rgba(197,160,89,.08);padding:1.5rem;margin-bottom:2rem}
 @media(min-width:768px){.card{padding:2rem}}
 .sec-title{font-family:'Playfair Display',serif;font-size:1.5rem;text-align:center;margin-bottom:1.5rem}
- 
+
 /* ── SERVICES GRID ── */
 .svc-grid{display:grid;gap:1rem}
 @media(min-width:480px){.svc-grid{grid-template-columns:1fr 1fr}}
@@ -85,7 +85,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 .svc-price{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold)}
 .svc-starts{display:block;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.1rem}
 .svc-dur{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
- 
+
 /* ── BOOKING ── */
 .back-btn{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);cursor:pointer;border:none;background:none;margin-bottom:1.25rem;display:flex;align-items:center;gap:.3rem;transition:color .2s}
 .back-btn:hover{color:var(--gold-h)}
@@ -95,7 +95,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 @media(min-width:768px){.bk-grid{grid-template-columns:1fr 1fr}}
 .step-lbl{font-weight:500;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
 .step-n{width:1.5rem;height:1.5rem;border-radius:50%;background:var(--gold-l);color:var(--gold-h);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
- 
+
 /* ── CALENDAR ── */
 .cal{border:1px solid var(--gold-l);overflow:hidden;background:#fff}
 .cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--surf);border-bottom:1px solid var(--gold-l)}
@@ -111,7 +111,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 .cal-day[disabled]{color:#ccc;cursor:not-allowed}
 .cal-day.today{border-color:var(--gold);color:var(--gold-h);background:var(--gold-l)}
 .cal-day.sel{background:var(--gold);border-color:var(--gold);color:#fff!important}
- 
+
 /* ── SLOTS ── */
 .slots-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
 @media(min-width:400px){.slots-grid{grid-template-columns:repeat(4,1fr)}}
@@ -119,7 +119,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-he
 .slot:hover{border-color:var(--gold);color:var(--gold-h)}
 .slot.sel{border-color:var(--gold);background:var(--gold-l);color:var(--gold-h);font-weight:700}
 .slots-empty{font-size:.85rem;color:var(--muted);background:var(--surf);padding:1.5rem;text-align:center;border:1px solid var(--bdr)}
- 
+
 /* ── FORM ── */
 .client-form{border-top:1px solid var(--gold-l);padding-top:2rem;margin-top:1.5rem}
 .fgrid{display:grid;gap:1rem}
@@ -133,7 +133,7 @@ input[type=text],input[type=tel],input[type=url],input[type=number],input[type=e
 input:focus,select:focus{border-color:var(--gold)}
 input[type=color]{padding:.2rem;cursor:pointer;height:2.5rem;width:3rem;border:1px solid var(--bdr)}
 input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:pointer}
- 
+
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem 1.5rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif}
 .btn-gold{background:var(--gold);color:#fff}
@@ -153,13 +153,13 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .btn-icon{padding:.4rem;border-radius:4px}
 .btn-w{width:100%}
 .mt5{margin-top:1.25rem}
- 
+
 /* ── FOOTER ── */
 .c-footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.8rem}
 .foot-row{display:flex;flex-direction:column;align-items:center;gap:.4rem;margin-bottom:1rem}
 .foot-item{display:flex;align-items:center;gap:.4rem}
 .alink{color:var(--gold);text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;font-size:.8rem}
- 
+
 /* ── MODALS ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto}
 .modal{background:#fff;width:100%;max-width:26rem;padding:2rem;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.2);animation:zin .2s ease}
@@ -189,14 +189,14 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .dot:nth-child(2){animation-delay:.16s}
 .dot:nth-child(3){animation-delay:.32s}
 @keyframes bou{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
- 
+
 /* ── ADMIN LOGIN ── */
 .login-ov{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem}
 .login-box{background:#fff;border:1px solid var(--bdr);padding:2.5rem;width:100%;max-width:22rem;text-align:center}
 .login-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;margin-bottom:.3rem}
 .login-sub{font-size:.75rem;color:var(--muted);margin-bottom:2rem}
 .login-err{font-size:.78rem;color:var(--red);margin-top:.5rem}
- 
+
 /* ── SIDEBAR ── */
 .sidebar{background:var(--surf);border-bottom:1px solid var(--bdr);flex-shrink:0;z-index:20}
 @media(min-width:768px){.sidebar{width:18rem;border-bottom:none;border-right:1px solid var(--bdr);height:100vh;position:sticky;top:0;display:flex;flex-direction:column}}
@@ -215,7 +215,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 @media(min-width:768px){.sb-foot{display:block}}
 .site-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.75rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;width:100%;transition:color .15s}
 .site-btn:hover{color:var(--txt)}
- 
+
 /* ── ADMIN MAIN ── */
 .a-main{flex:1;padding:0;overflow-x:hidden;display:flex;flex-direction:column}
 @media(min-width:768px){.a-main{height:100vh;overflow-y:auto}}
@@ -225,7 +225,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .a-sec.on{display:block}
 .a-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:2rem}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:.75rem}
- 
+
 /* ── APPT CARDS ── */
 .appt-list{display:flex;flex-direction:column;gap:.75rem}
 .appt{background:#fff;border:1px solid var(--bdr);padding:1rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
@@ -240,7 +240,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .appt-cli{font-size:.85rem;color:var(--muted)}
 .appt-ph{font-size:.8rem;color:var(--muted);margin-top:.1rem}
 .appt-acts{display:flex;flex-wrap:wrap;gap:.4rem}
- 
+
 /* ── SERVICES ADMIN ── */
 .svc-adm-grid{display:grid;gap:1rem}
 @media(min-width:640px){.svc-adm-grid{grid-template-columns:1fr 1fr}}
@@ -248,7 +248,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .svc-adm-img{width:100%;height:8rem;object-fit:cover;margin-bottom:1rem;border:1px solid var(--bdr)}
 .svc-adm-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:1rem;border-top:1px solid var(--bdr)}
 .svc-adm-acts{display:flex;gap:.25rem}
- 
+
 /* ── FORM PANEL ── */
 .fpanel{background:#fff;border:1px solid var(--bdr);padding:1.5rem;margin-bottom:2rem}
 .fpanel-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--gold-l);display:inline-block}
@@ -258,14 +258,14 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .chk-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
 .chk-row label{font-size:.85rem;font-weight:500;color:var(--txt);text-transform:none;letter-spacing:normal}
 .divider{border:none;border-top:1px solid var(--bdr);margin:1.25rem 0}
- 
+
 /* ── SETTINGS ── */
 .set-form{background:#fff;border:1px solid var(--bdr);padding:2rem;max-width:36rem}
 .set-f{margin-bottom:1.25rem}
 .set-prev{margin-top:.75rem;border:1px solid var(--bdr);overflow:hidden;aspect-ratio:16/9}
 .set-prev img{width:100%;height:100%;object-fit:cover}
 .set-foot{padding-top:1.25rem;border-top:1px solid var(--bdr);display:flex;justify-content:flex-end}
- 
+
 /* ── LOYALTY ── */
 .loy-form{background:#fff;border:1px solid var(--bdr);padding:2rem;max-width:36rem}
 .loy-tog{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--gold-l);border:1px solid rgba(197,160,89,.2);margin-bottom:1.5rem}
@@ -274,7 +274,7 @@ input[type=checkbox]{width:1rem;height:1rem;accent-color:var(--gold);cursor:poin
 .loy-grid{display:grid;gap:1.25rem;margin-bottom:1.25rem}
 @media(min-width:640px){.loy-grid{grid-template-columns:1fr 1fr}}
 .loy-foot{display:flex;justify-content:flex-end;padding-top:1.25rem;border-top:1px solid var(--bdr)}
- 
+
 /* ── TABLE ── */
 .tbl-wrap{background:#fff;border:1px solid var(--bdr);overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:36rem}
@@ -285,14 +285,14 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--surf)}
 .badge{display:inline-flex;align-items:center;padding:.2rem .75rem;font-size:.75rem;font-weight:700;border-radius:999px;background:var(--gold-l);color:var(--gold-h);border:1px solid rgba(197,160,89,.2)}
 .empty{background:#fff;border:1px solid var(--bdr);padding:3rem;text-align:center;color:var(--muted)}
- 
+
 /* ── TOAST ── */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;color:#fff;padding:.75rem 1.25rem;font-size:.85rem;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:18rem;animation:sup .3s ease;border-radius:2px}
 .toast.info{background:var(--txt)}
 .toast.ok{background:var(--green)}
 .toast.err{background:var(--red)}
 @keyframes sup{from{transform:translateY(1rem);opacity:0}to{transform:translateY(0);opacity:1}}
- 
+
 /* ── UPDATES ── */
 #view-updates{min-height:100vh;background:#f3f4f6;padding:2.5rem 1rem}
 .upd-title{font-family:'Playfair Display',serif;color:#e11d48;font-size:2rem;border-bottom:2px solid #fecdd3;padding-bottom:.75rem;margin-bottom:2rem;text-align:center}
@@ -302,7 +302,7 @@ tr:hover td{background:var(--surf)}
 .upd-list{list-style:disc;padding-left:1.5rem}
 .upd-list li{margin-bottom:.75rem;color:#374151;font-size:.9rem}
 .upd-list strong{color:#111827}
- 
+
 /* ── DOWNLOAD ── */
 .dl-card{background:#fff;width:100%;max-width:36rem;border-radius:1rem;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center}
 .dl-hdr{background:var(--gold);height:8rem;display:flex;align-items:center;justify-content:center}
@@ -321,14 +321,14 @@ tr:hover td{background:var(--surf)}
 </style>
 </head>
 <body>
- 
+
 <!-- ══ LOADING SCREEN ══ -->
 <div id="loading-screen">
   <div class="spinner"></div>
   <h2>Studio Marina Hair</h2>
   <p id="loading-msg">Carregando dados do salão...</p>
 </div>
- 
+
 <!-- ══════════════ CLIENT HOME ══════════════ -->
 <div id="view-client" class="view">
   <header class="hero">
@@ -344,24 +344,24 @@ tr:hover td{background:var(--surf)}
       </div>
     </div>
   </header>
- 
+
   <div class="wrap">
     <div id="svc-section" class="card">
       <h2 class="sec-title">Nossos Serviços</h2>
       <div class="svc-grid" id="svc-grid"></div>
     </div>
- 
+
     <div id="bk-section" class="card" style="display:none">
       <button class="back-btn" onclick="backToSvc()">&#8592; Voltar</button>
       <h2 class="bk-title" id="bk-name"></h2>
       <p class="bk-meta" id="bk-meta"></p>
- 
+
       <div id="bk-ok" style="display:none;text-align:center;padding:2rem 0">
         <div style="width:4rem;height:4rem;border-radius:50%;background:#dcfce7;color:var(--green);font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">✓</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:.5rem">Agendamento Solicitado!</h3>
         <p style="color:var(--muted);font-size:.85rem">Redirecionando para o WhatsApp...</p>
       </div>
- 
+
       <div id="bk-form">
         <div class="bk-grid">
           <div>
@@ -385,7 +385,7 @@ tr:hover td{background:var(--surf)}
       </div>
     </div>
   </div>
- 
+
   <footer class="c-footer">
     <div class="foot-row">
       <div class="foot-item">📞 <span id="ft-phone"></span></div>
@@ -399,7 +399,7 @@ tr:hover td{background:var(--surf)}
     </p>
   </footer>
 </div>
- 
+
 <!-- LOYALTY MODAL -->
 <div id="loy-modal" class="overlay" style="display:none" onclick="closeLoyOuter(event)">
   <div class="modal" id="loy-inner">
@@ -430,7 +430,7 @@ tr:hover td{background:var(--surf)}
     </div>
   </div>
 </div>
- 
+
 <!-- SUCCESS MODAL -->
 <div id="ok-modal" class="success-ov" style="display:none">
   <div class="success-box">
@@ -440,7 +440,7 @@ tr:hover td{background:var(--surf)}
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
   </div>
 </div>
- 
+
 <!-- ADMIN LOGIN -->
 <div id="login-ov" class="login-ov" style="display:none">
   <div class="login-box">
@@ -452,7 +452,7 @@ tr:hover td{background:var(--surf)}
     <button class="btn btn-ghost btn-w" style="margin-top:.75rem;font-size:.75rem" onclick="document.getElementById('login-ov').style.display='none'">Cancelar</button>
   </div>
 </div>
- 
+
 <!-- ══════════════ ADMIN DASHBOARD ══════════════ -->
 <div id="view-admin" class="view">
   <aside class="sidebar">
@@ -468,7 +468,7 @@ tr:hover td{background:var(--surf)}
       <button class="site-btn" onclick="go('view-client')">↗ Ver site do cliente</button>
     </div>
   </aside>
- 
+
   <main class="a-main">
     <!-- SYNC STATUS BAR -->
     <div class="sync-bar">
@@ -482,14 +482,14 @@ tr:hover td{background:var(--surf)}
         <button class="btn btn-ghost btn-sm" onclick="go('view-client')">↗ Ver site</button>
       </div>
     </div>
- 
+
     <div class="a-content">
       <!-- AGENDA -->
       <div id="tab-agenda" class="a-sec on">
         <h2 class="a-title">Próximos Agendamentos</h2>
         <div id="appt-wrap"></div>
       </div>
- 
+
       <!-- SERVICES -->
       <div id="tab-services" class="a-sec">
         <div class="sec-hdr">
@@ -519,7 +519,7 @@ tr:hover td{background:var(--surf)}
         </div>
         <div class="svc-adm-grid" id="svc-adm-grid"></div>
       </div>
- 
+
       <!-- SETTINGS -->
       <div id="tab-settings" class="a-sec">
         <h2 class="a-title">Informações do Salão</h2>
@@ -536,7 +536,7 @@ tr:hover td{background:var(--surf)}
           <div class="set-foot"><button class="btn btn-gold" onclick="saveSettings()">Salvar e Publicar</button></div>
         </div>
       </div>
- 
+
       <!-- LOYALTY -->
       <div id="tab-loyalty" class="a-sec">
         <h2 class="a-title">Programa de Fidelidade</h2>
@@ -554,7 +554,7 @@ tr:hover td{background:var(--surf)}
           <div class="loy-foot"><button class="btn btn-dark" onclick="saveLoy()">Salvar e Publicar</button></div>
         </div>
       </div>
- 
+
       <!-- CLIENTS -->
       <div id="tab-clients" class="a-sec">
         <div class="sec-hdr">
@@ -571,7 +571,7 @@ tr:hover td{background:var(--surf)}
     </div><!-- /a-content -->
   </main>
 </div>
- 
+
 <!-- ══════════════ UPDATES ══════════════ -->
 <div id="view-updates" class="view">
   <div style="max-width:50rem;margin:0 auto;padding:2rem 1rem">
@@ -608,7 +608,7 @@ tr:hover td{background:var(--surf)}
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════ DOWNLOAD ══════════════ -->
 <div id="view-download" class="view">
   <div class="dl-card">
@@ -631,16 +631,16 @@ tr:hover td{background:var(--surf)}
     <div class="dl-foot">Experimente nosso Programa de Fidelidade ✨</div>
   </div>
 </div>
- 
+
 <div id="toast" class="toast info" style="display:none"></div>
- 
+
 <script>
 // ═══════════════════════════════════════════════════
 //  STORAGE LAYER — salva na nuvem (window.storage)
 //  e usa localStorage como fallback/cache local
 // ═══════════════════════════════════════════════════
 var CLOUD_KEY = 'marina_app_v2';
- 
+
 var DEFAULT = {
   settings:{salonName:"Studio Marina Hair",phone:"11 96646-2521",googleReviewUrl:"https://g.page/r/CSmwQUgRrY4-EBM/review",instagram:"@hair.studio.marina",bannerUrl:"https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"},
   loyaltySettings:{enabled:true,pointsPerService:10,referralBonus:20,minPointsToRedeem:100,discountPerPoint:0.1},
@@ -651,13 +651,13 @@ var DEFAULT = {
   ],
   appointments:[],clients:[],_updatedAt:null
 };
- 
+
 var PW = "marina2024";
 var APP = null;
 var syncInProgress = false;
 var lastSyncTime = null;
 var useCloud = (typeof window.storage !== 'undefined');
- 
+
 // ── cache local (fallback) ──
 function localSave(data){
   try{ localStorage.setItem('smh_cache', JSON.stringify(data)); }catch(e){}
@@ -669,7 +669,7 @@ function localLoad(){
   }catch(e){}
   return null;
 }
- 
+
 // ── carrega da nuvem ──
 // CORRIGIDO: window.storage.get lança exceção quando a chave não existe
 // em vez de retornar null — tratamos ambos os casos no catch
@@ -689,7 +689,7 @@ function cloudLoad(cb){
       cb(null);
     });
 }
- 
+
 // ── salva na nuvem ──
 // CORRIGIDO: não muta data diretamente — cria cópia limpa antes de serializar
 function cloudSave(data, onDone, onErr){
@@ -700,7 +700,7 @@ function cloudSave(data, onDone, onErr){
     payload = JSON.parse(JSON.stringify(data));
     payload._updatedAt = new Date().toISOString();
   }catch(e){ if(onErr) onErr(e); return; }
- 
+
   window.storage.set(CLOUD_KEY, JSON.stringify(payload), true)
     .then(function(res){
       // window.storage.set pode retornar null em caso de falha silenciosa
@@ -709,13 +709,13 @@ function cloudSave(data, onDone, onErr){
     })
     .catch(function(e){ if(onErr) onErr(e); });
 }
- 
+
 // ── salva em ambos ──
 // CORRIGIDO: toast e onDone disparam mesmo sem nuvem
 function save(opts){
   opts = opts||{};
   localSave(APP);
- 
+
   if(!useCloud){
     // sem nuvem: salva só local e avisa normalmente
     lastSyncTime = new Date();
@@ -724,7 +724,7 @@ function save(opts){
     if(opts.onDone) opts.onDone();
     return;
   }
- 
+
   setSyncStatus('saving');
   cloudSave(APP,
     function(){
@@ -740,7 +740,7 @@ function save(opts){
     }
   );
 }
- 
+
 // ── sincronizar (pull) ──
 function forceSync(){
   if(syncInProgress) return;
@@ -769,7 +769,7 @@ function forceSync(){
     toast('Dados atualizados!', 'ok');
   });
 }
- 
+
 // ── status bar ──
 // CORRIGIDO: guard total — elementos podem não existir se admin ainda não foi renderizado
 function setSyncStatus(state){
@@ -792,7 +792,7 @@ function setSyncStatus(state){
     if(tim) tim.textContent = '';
   }
 }
- 
+
 // ── loading screen ──
 function setLoading(msg){
   var scr = document.getElementById('loading-screen');
@@ -804,15 +804,15 @@ function hideLoading(){
   var scr = document.getElementById('loading-screen');
   if(scr) scr.style.display='none';
 }
- 
+
 // ══ BOOT ══ — carrega dados e inicia app
 (function boot(){
   setLoading('Carregando dados do salão...');
- 
+
   // tenta carregar da nuvem primeiro
   cloudLoad(function(cloudData){
     var localData = localLoad();
- 
+
     if(cloudData && cloudData.settings){
       // nuvem tem dados — usa nuvem
       APP = cloudData;
@@ -825,14 +825,14 @@ function hideLoading(){
       // nada ainda — usa default
       APP = JSON.parse(JSON.stringify(DEFAULT));
     }
- 
+
     hideLoading();
     // inicia na tela do cliente
     document.getElementById('view-client').classList.add('active');
     renderClient();
   });
 })();
- 
+
 // ══ ROUTING ══
 function go(id){
   document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
@@ -841,10 +841,10 @@ function go(id){
   if(id==='view-admin') renderAdmin();
   window.scrollTo(0,0);
 }
- 
+
 // ══ CLIENT ══
 var FM = {sans:'Inter,sans-serif',serif:"'Playfair Display',serif",mono:"'Courier New',monospace"};
- 
+
 function renderClient(){
   if(!APP) return;
   var s = APP.settings;
@@ -856,7 +856,7 @@ function renderClient(){
   document.getElementById('ft-phone').textContent = s.phone||'';
   document.getElementById('ft-ig').textContent = s.instagram||'';
   document.getElementById('ft-copy').textContent = '© '+new Date().getFullYear()+' '+s.salonName+'. Todos os direitos reservados.';
- 
+
   var g = document.getElementById('svc-grid');
   if(!APP.services||!APP.services.length){
     g.innerHTML='<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:2rem">Nenhum serviço cadastrado.</p>';
@@ -874,10 +874,10 @@ function renderClient(){
       +'</div></div></div>';
   }).join('');
 }
- 
+
 // ══ BOOKING ══
 var selSvc=null, selDate=null, selTime=null, calMon=new Date();
- 
+
 function startBk(id){
   selSvc=APP.services.find(function(s){return s.id===id;});
   if(!selSvc) return;
@@ -891,16 +891,16 @@ function startBk(id){
   document.getElementById('cli-form').style.display='none';
   buildCal(); window.scrollTo(0,0);
 }
- 
+
 function backToSvc(){
   document.getElementById('svc-section').style.display='';
   document.getElementById('bk-section').style.display='none';
   selSvc=null; selDate=null; selTime=null;
 }
- 
+
 function pad(n){return String(n).padStart(2,'0');}
 function fmtD(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
- 
+
 function buildCal(){
   var root=document.getElementById('cal');
   var y=calMon.getFullYear(), m=calMon.getMonth();
@@ -924,11 +924,11 @@ function buildCal(){
     +'<div class="cal-wk">'+['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(function(d){return '<div class="cal-wday">'+d+'</div>';}).join('')+'</div>'
     +'<div class="cal-days">'+days+'</div></div>';
 }
- 
+
 function calPrev(){calMon=new Date(calMon.getFullYear(),calMon.getMonth()-1,1);buildCal();}
 function calNext(){calMon=new Date(calMon.getFullYear(),calMon.getMonth()+1,1);buildCal();}
 function pickDate(y,m,d){selDate=new Date(y,m,d);selTime=null;buildCal();buildSlots();document.getElementById('cli-form').style.display='none';}
- 
+
 function buildSlots(){
   var w=document.getElementById('slots');
   if(!selDate){w.innerHTML='<div class="slots-empty">Selecione uma data para ver os horários</div>';return;}
@@ -941,14 +941,14 @@ function buildSlots(){
     return '<button type="button" class="slot'+(selTime===t?' sel':'')+'" onclick="pickTime(\''+t+'\')">'+t+'</button>';
   }).join('')+'</div>';
 }
- 
+
 function pickTime(t){
   selTime=t; buildSlots();
   var cf=document.getElementById('cli-form');
   cf.style.display='block';
   cf.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
- 
+
 function submitBooking(){
   var name=(document.getElementById('cli-name').value||'').trim();
   var phone=(document.getElementById('cli-phone').value||'').trim();
@@ -974,7 +974,7 @@ function submitBooking(){
     document.getElementById('cli-ref').value='';
   },3000);
 }
- 
+
 // ══ LOYALTY MODAL ══
 var loyClient=null;
 function openLoyalty(){document.getElementById('loy-modal').style.display='flex';document.getElementById('loy-form').style.display='block';document.getElementById('loy-result').style.display='none';document.getElementById('loy-phone').value='';loyClient=null;}
@@ -999,7 +999,7 @@ function shareRef(){
   var text='Oi! Estou amando o Studio Marina Hair! Agende e informe meu número ('+loyClient.phone+') para ganharmos bônus! '+window.location.href;
   window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
 }
- 
+
 // ══ ADMIN ══
 function goAdmin(){document.getElementById('login-ov').style.display='flex';document.getElementById('pw').value='';document.getElementById('pw-err').style.display='none';setTimeout(function(){document.getElementById('pw').focus();},100);}
 function doLogin(){
@@ -1009,7 +1009,7 @@ function doLogin(){
   }
   document.getElementById('login-ov').style.display='none';
   go('view-admin');
- 
+
   // ao entrar no admin, faz pull para garantir dados frescos
   if(useCloud){
     setSyncStatus('saving');
@@ -1024,7 +1024,7 @@ function doLogin(){
     });
   }
 }
- 
+
 function setTab(t,btn){
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on');
@@ -1036,7 +1036,7 @@ function setTab(t,btn){
   if(t==='settings')loadSettings();
   if(t==='loyalty')loadLoy();
 }
- 
+
 function renderAdmin(){
   renderAgenda();
   loadSettings();
@@ -1044,7 +1044,7 @@ function renderAdmin(){
   // status bar só atualiza depois que o DOM do admin já está visível
   setTimeout(function(){ setSyncStatus(lastSyncTime ? 'ok' : 'ok'); }, 0);
 }
- 
+
 // ── AGENDA ──
 function renderAgenda(){
   var wrap=document.getElementById('appt-wrap');
@@ -1073,7 +1073,7 @@ function renderAgenda(){
       +'</div></div>';
   }).join('')+'</div>';
 }
- 
+
 function doneAppt(id){
   var a=(APP.appointments||[]).find(function(x){return x.id===id;});
   if(!a)return;
@@ -1094,7 +1094,7 @@ function cancelAppt(id){
   save({toast:'Agendamento cancelado.'});
   renderAgenda();
 }
- 
+
 // ── SERVICES ADMIN ──
 var editSvcId=null;
 function renderSvcAdmin(){
@@ -1116,7 +1116,7 @@ function renderSvcAdmin(){
       +'</div></div></div>';
   }).join('');
 }
- 
+
 function toggleSvcForm(){
   editSvcId=null;
   document.getElementById('svc-form-ttl').textContent='Cadastrar Novo Serviço';
@@ -1144,12 +1144,12 @@ function editSvc(id){
 function saveSvc(){
   var n=(document.getElementById('sv-name').value||'').trim();
   if(!n){ alert('Nome do serviço é obrigatório.'); return; }
- 
+
   var priceRaw = parseFloat(document.getElementById('sv-price').value);
   var durRaw   = parseInt(document.getElementById('sv-dur').value);
   if(isNaN(priceRaw) || priceRaw < 0){ alert('Valor inválido.'); return; }
   if(isNaN(durRaw)   || durRaw < 1  ){ alert('Duração inválida.'); return; }
- 
+
   var d = {
     name       : n,
     duration   : durRaw,
@@ -1161,9 +1161,9 @@ function saveSvc(){
     priceFontFamily: document.getElementById('sv-pfont').value,
     priceColor     : document.getElementById('sv-pcol').value  || '#c5a059'
   };
- 
+
   if(!Array.isArray(APP.services)) APP.services = [];
- 
+
   if(editSvcId){
     var i = APP.services.findIndex(function(x){ return x.id===editSvcId; });
     if(i !== -1) APP.services[i] = Object.assign({}, APP.services[i], d);
@@ -1171,12 +1171,12 @@ function saveSvc(){
   } else {
     APP.services.push(Object.assign({ id: ''+Date.now() }, d));
   }
- 
+
   // fecha formulário e re-renderiza ANTES do save assíncrono
   document.getElementById('svc-form').style.display = 'none';
   editSvcId = null;
   renderSvcAdmin();
- 
+
   // salva (pode ser assíncrono)
   save({ toast: '✅ Serviço salvo! Clientes já podem ver.' });
 }
@@ -1186,7 +1186,7 @@ function delSvc(id){
   renderSvcAdmin();
   save({toast:'Serviço removido.'});
 }
- 
+
 // ── SETTINGS ──
 function loadSettings(){
   var s=APP.settings||{};
@@ -1208,7 +1208,7 @@ function saveSettings(){
   };
   save({toast:'✅ Configurações salvas e publicadas! Clientes já veem as mudanças.'});
 }
- 
+
 // ── LOYALTY ──
 function loadLoy(){var l=APP.loyaltySettings||{};document.getElementById('loy-on').checked=!!l.enabled;document.getElementById('loy-pts').value=l.pointsPerService||10;document.getElementById('loy-ref').value=l.referralBonus||20;document.getElementById('loy-min').value=l.minPointsToRedeem||100;document.getElementById('loy-disc').value=l.discountPerPoint||0.1;}
 function saveLoy(){
@@ -1221,7 +1221,7 @@ function saveLoy(){
   };
   save({toast:'✅ Programa de fidelidade atualizado!'});
 }
- 
+
 // ── CLIENTS ──
 function renderClients(){
   var cs=(APP.clients||[]).slice().sort(function(a,b){return (b.points||0)-(a.points||0);});
@@ -1241,7 +1241,7 @@ function delClient(id){
   renderClients();
   save({toast:'Cliente excluído.'});
 }
- 
+
 // ── TOAST ──
 var toastT;
 function toast(msg, type){
